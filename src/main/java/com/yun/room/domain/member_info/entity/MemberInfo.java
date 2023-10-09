@@ -1,0 +1,100 @@
+package com.yun.room.domain.member_info.entity;
+
+import com.yun.room.domain.common.auditor.AuditorEntity;
+import com.yun.room.domain.gender.entity.Gender;
+import com.yun.room.domain.member.entity.Member;
+import com.yun.room.domain.member_image.entity.MemberImage;
+import com.yun.room.domain.nationality.entity.Nationality;
+import com.yun.room.domain.occupation.entity.Occupation;
+import com.yun.room.domain.race.entity.Race;
+import com.yun.room.domain.religion.entity.Religion;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name="member_info")
+@NoArgsConstructor // 기본생성자가 필요하다.
+@Getter
+public class MemberInfo extends AuditorEntity {
+
+    @Id // 이 필드가 Table의 PK.
+    @Column(name="member_info_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long memberInfoId;
+
+
+    @Column(nullable = false)
+    private Integer birthYear;
+
+    @Column(nullable = false)
+    private Integer birthMonth;
+
+    @Column(nullable = false)
+    private Integer birthDay;
+
+    private String phone;
+
+    @CreationTimestamp // 현재시간이 저장될 때 자동으로 생성.
+    private LocalDateTime regdate;
+
+    @OneToOne
+    @JoinColumn(name = "member_image_id")
+    private MemberImage memberImage;
+
+    @ManyToOne
+    @JoinColumn(name = "nationality_id")
+    private Nationality nationality;
+
+    @ManyToOne
+    @JoinColumn(name = "gender_id")
+    private Gender gender;
+
+    @ManyToOne
+    @JoinColumn(name = "race_id")
+    private Race race;
+
+    @ManyToOne
+    @JoinColumn(name = "occupation_id")
+    private Occupation occupation;
+
+    @ManyToOne
+    @JoinColumn(name = "religion_id")
+    private Religion religion;
+
+    @OneToOne(mappedBy = "memberInfo")
+    private Member member;
+
+    public MemberInfo(
+            Integer birthYear
+            , Integer birthMonth
+            , Integer birthDay
+            , String phone
+    ) {
+        this.birthYear = birthYear;
+        this.birthMonth = birthMonth;
+        this.birthDay = birthDay;
+        this.phone = phone;
+    }
+
+    public void updateOptions(
+            Nationality nationality
+            , Gender gender
+            , Race race
+            , Occupation occupation
+            , Religion religion) {
+        this.nationality = nationality;
+        this.gender = gender;
+        this.race = race;
+        this.occupation = occupation;
+        this.religion = religion;
+    }
+
+    public void updateMember(Member member) {
+        this.member = member;
+    }
+}
