@@ -170,7 +170,7 @@ public class MemberController {
 
         Long memberId = Long.valueOf((Integer)claims.get("memberId"));
 
-        Member member = memberService.getMember(memberId).orElseThrow(() -> new IllegalArgumentException("Member not found"));
+        Member member = memberService.getMember(memberId);
 
 
         List roles = (List) claims.get("roles");

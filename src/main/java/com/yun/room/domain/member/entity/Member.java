@@ -2,6 +2,7 @@ package com.yun.room.domain.member.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yun.room.domain.common.auditor.AuditorEntity;
+import com.yun.room.domain.house.entity.House;
 import com.yun.room.domain.member_info.entity.MemberInfo;
 import com.yun.room.domain.role.entity.Role;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity // Database Table과 맵핑하는 객체.
@@ -49,6 +51,9 @@ public class Member extends AuditorEntity {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
+
+    @OneToMany(mappedBy = "host")
+    private List<House> houses;
 
     public Member(String email, String password, String name, Boolean isLocked) {
         this.email = email;
