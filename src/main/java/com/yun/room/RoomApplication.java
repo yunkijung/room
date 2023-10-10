@@ -19,7 +19,5 @@ public class RoomApplication {
 		return new JPAQueryFactory(em);
 	}
 
-	public void test() {
 
-	}
 }

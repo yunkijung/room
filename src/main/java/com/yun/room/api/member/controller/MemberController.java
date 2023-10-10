@@ -26,6 +26,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -90,7 +92,7 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid MemberLoginDto loginDto, BindingResult bindingResult) {
+    public ResponseEntity login(@RequestBody @Valid MemberLoginDto loginDto, BindingResult bindingResult, HttpServletResponse response) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
@@ -113,9 +115,23 @@ public class MemberController {
         refreshTokenEntity.setMemberId(member.getMemberId());
         refreshTokenService.addRefreshToken(refreshTokenEntity);
 
+        // create a cookie
+        Cookie cookie = new Cookie("refreshToken", refreshToken);
+
+        // expires in 7 days
+        cookie.setMaxAge(7 * 24 * 60 * 60);
+
+        // optional properties
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+
+        // add cookie to response
+        response.addCookie(cookie);
+
         MemberLoginResponseDto loginResponse = MemberLoginResponseDto.builder()
                 .accessToken(accessToken)
-                .refreshToken(refreshToken)
+                .refreshToken("httoOnly")
                 .memberId(member.getMemberId())
                 .nickname(member.getName())
                 .build();
@@ -123,8 +139,22 @@ public class MemberController {
     }
 
     @DeleteMapping("/logout")
-    public ResponseEntity logout(@RequestBody RefreshTokenDto refreshTokenDto) {
-        refreshTokenService.deleteRefreshToken(refreshTokenDto.getRefreshToken());
+    public ResponseEntity logout(@CookieValue(name = "refreshToken", required = true) String token, HttpServletResponse response) {
+        refreshTokenService.deleteRefreshToken(token);
+        // create a cookie
+        Cookie cookie = new Cookie("refreshToken", "");
+
+        // expires in 7 days
+        cookie.setMaxAge(0);
+
+        // optional properties
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+
+        // add cookie to response
+        response.addCookie(cookie);
+
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -134,8 +164,8 @@ public class MemberController {
     3. AccessToken을 발급하여 기존 RefreshToken과 함께 응답한다.
      */
     @PostMapping("/refreshToken")
-    public ResponseEntity requestRefresh(@RequestBody RefreshTokenDto refreshTokenDto) {
-        RefreshToken refreshToken = refreshTokenService.findRefreshToken(refreshTokenDto.getRefreshToken()).orElseThrow(() -> new IllegalArgumentException("Refresh token not found"));
+    public ResponseEntity requestRefresh(@CookieValue(name = "refreshToken", required = true) String token) {
+        RefreshToken refreshToken = refreshTokenService.findRefreshToken(token).orElseThrow(() -> new IllegalArgumentException("Refresh token not found"));
         Claims claims = jwtTokenizer.parseRefreshToken(refreshToken.getValue());
 
         Long memberId = Long.valueOf((Integer)claims.get("memberId"));
@@ -150,7 +180,7 @@ public class MemberController {
 
         MemberLoginResponseDto loginResponse = MemberLoginResponseDto.builder()
                 .accessToken(accessToken)
-                .refreshToken(refreshTokenDto.getRefreshToken())
+                .refreshToken("httpOnly")
                 .memberId(member.getMemberId())
                 .nickname(member.getName())
                 .build();
