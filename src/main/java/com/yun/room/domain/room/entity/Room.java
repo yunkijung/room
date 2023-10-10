@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Room extends AuditorEntity {
     @Id
+    @Column(name="room_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long roomId;
 

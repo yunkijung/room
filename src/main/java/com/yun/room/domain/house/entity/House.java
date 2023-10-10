@@ -16,6 +16,7 @@ import java.util.List;
 public class House extends AuditorEntity {
 
     @Id
+    @Column(name="house_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long houseId;
 

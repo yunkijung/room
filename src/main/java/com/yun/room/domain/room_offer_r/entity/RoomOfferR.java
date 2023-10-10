@@ -15,6 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class RoomOfferR extends AuditorEntity {
     @Id
+    @Column(name="room_offer_r_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long roomOfferRId;
 
