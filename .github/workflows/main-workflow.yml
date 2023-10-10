@@ -27,6 +27,9 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew build
 
+      - name: Debug version
+        run: echo "Version is ${{ steps.get_version.outputs.version }}"
+
       - name: Get version from build.gradle
         id: get_version
         run: echo "::set-output name=version::$(cat build.gradle | grep version | awk '{print $2}' | sed 's/\"//g')"
@@ -37,7 +40,7 @@ jobs:
           context: ./
           push: true
           tags: |
-            yunki0415/room-backend:${{ steps.get_version.outputs.version }}
+            yunki0415/room-backend:latest
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
