@@ -37,7 +37,7 @@ jobs:
           context: ./
           push: true
           tags: |
-            your-dockerhub-username/your-repo-name:${{ steps.get_version.outputs.version }}
+            yunki0415/room-backend:${{ steps.get_version.outputs.version }}
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
