@@ -18,4 +18,8 @@ public class RoomApplication {
 	JPAQueryFactory jpaQueryFactory(EntityManager em) {
 		return new JPAQueryFactory(em);
 	}
+
+	public void test() {
+		
+	}
 }
