@@ -18,7 +18,7 @@ public class Room extends AuditorEntity {
     private Long roomId;
 
     private String title;
-    private String desc;
+    private String description;
     private Integer price;
     private Integer minStay;
     private Boolean isOn;

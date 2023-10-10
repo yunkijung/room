@@ -21,7 +21,7 @@ public class House extends AuditorEntity {
     private Long houseId;
 
     private String title;
-    private String desc;
+    private String description;
 
     @Embedded
     private Address address;
