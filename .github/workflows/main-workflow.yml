@@ -29,8 +29,7 @@ jobs:
 
       - name: Debug Docker Hub credentials
         run:
-          echo "DOCKER_USERNAME:
-            ${{ secrets.DOCKER_USERNAME }}, DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}"
+          echo "DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}"
 
 
       - name: Debug build.gradle content
