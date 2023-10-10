@@ -28,8 +28,7 @@ jobs:
         run: ./gradlew build
 
       - name: Debug Docker Hub credentials
-        run:
-          echo "DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}"
+        run: echo "DOCKER_USERNAME - ${{ secrets.DOCKERHUB_USERNAME }}"
 
 
       - name: Debug build.gradle content
@@ -40,13 +39,13 @@ jobs:
 
       - name: Get version from build.gradle
         id: get_version
-        run: echo "::set-output name=version::$(cat build.gradle | grep version | awk '{print $2}' | sed 's/\"//g')"
+        run: echo "::set-output name=version::$(awk -F= '/^version/ {print $2}' build.gradle | tr -d '[:space:]' | tr -d "'")"
 
       - name: Login to Docker Hub
         uses: docker/login-action@v1
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
       - name: Build Docker image
         uses: docker/build-push-action@v2
@@ -56,5 +55,5 @@ jobs:
           tags: |
             yunki0415/room-backend:${{ steps.get_version.outputs.version }}
         env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
