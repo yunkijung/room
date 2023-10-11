@@ -22,7 +22,7 @@ public class MemberService {
     }
 
     @Transactional
-    public Member saveMember(Member member) {
+    public Member save(Member member) {
 //        Optional<Role> userRole = roleRepository.findByName("ROLE_USER");
 //        member.addRole(userRole.get());
         Member saveMember = memberRepository.save(member);
@@ -31,7 +31,7 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public Member getMember(Long memberId){
+    public Member findById(Long memberId){
         return memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
     }
 

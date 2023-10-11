@@ -14,7 +14,7 @@ public class NationalityService {
     private final NationalityRepository nationalityRepository;
 
     @Transactional
-    public Nationality getNationalityById(Long nationalityId) {
+    public Nationality findById(Long nationalityId) {
         return nationalityRepository.findById(nationalityId).orElseThrow(() -> new IllegalArgumentException("해당 국가가 없습니다."));
     }
 }

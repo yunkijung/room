@@ -14,7 +14,7 @@ public class OccupationService {
     private final OccupationRepository occupationRepository;
 
     @Transactional
-    public Occupation getOccupationById(Long occupationId) {
+    public Occupation findById(Long occupationId) {
         return occupationRepository.findById(occupationId).orElseThrow(() -> new IllegalArgumentException("해당 직종이 없습니다."));
     }
 }

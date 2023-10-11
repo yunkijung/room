@@ -2,6 +2,7 @@ package com.yun.room.domain.house.entity;
 
 import com.yun.room.domain.common.auditor.AuditorEntity;
 import com.yun.room.domain.common.embedded.Address;
+import com.yun.room.domain.image.entity.Image;
 import com.yun.room.domain.member.entity.Member;
 import com.yun.room.domain.room.entity.Room;
 import lombok.Getter;
@@ -42,6 +43,9 @@ public class House extends AuditorEntity {
     @OneToMany(mappedBy = "house")
     private List<Room> rooms;
 
+    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL, orphanRemoval=true)
+    private List<Image> images;
+
     public House(
             String title
             , String description
@@ -70,5 +74,12 @@ public class House extends AuditorEntity {
     public void updateHost(Member host) {
         this.host = host;
         host.getHouses().add(this);
+    }
+
+    public void updateImages(List<Image> images) {
+        this.images = images;
+        for (Image image : images) {
+            image.updateHouse(this);
+        }
     }
 }

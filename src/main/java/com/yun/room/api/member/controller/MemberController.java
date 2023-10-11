@@ -2,7 +2,7 @@ package com.yun.room.api.member.controller;
 
 import com.yun.room.api.member.dto.login.MemberLoginDto;
 import com.yun.room.api.member.dto.login.MemberLoginResponseDto;
-import com.yun.room.api.member.dto.refresh.RefreshTokenDto;
+
 import com.yun.room.api.member.dto.signup.MemberSignupDto;
 import com.yun.room.api.member.dto.signup.MemberSignupResponseDto;
 import com.yun.room.domain.component_service.member.dto.MemberInfoOptionsDto;
@@ -170,7 +170,7 @@ public class MemberController {
 
         Long memberId = Long.valueOf((Integer)claims.get("memberId"));
 
-        Member member = memberService.getMember(memberId);
+        Member member = memberService.findById(memberId);
 
 
         List roles = (List) claims.get("roles");

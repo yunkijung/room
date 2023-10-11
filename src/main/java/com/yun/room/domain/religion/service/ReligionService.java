@@ -12,7 +12,7 @@ public class ReligionService {
     private final ReligionRepository religionRepository;
 
     @Transactional
-    public Religion getReligionById(Long religionId) {
+    public Religion findById(Long religionId) {
         return religionRepository.findById(religionId).orElseThrow(() -> new IllegalArgumentException("해당 종교가 없습니다."));
     }
 }

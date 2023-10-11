@@ -35,20 +35,20 @@ public class MemberComponentService {
     @Transactional
     public Member signUp(Member member, MemberInfo memberInfo, MemberInfoOptionsDto memberInfoOptionsDto) {
         memberInfo.updateOptions(
-                nationalityService.getNationalityById(memberInfoOptionsDto.getNationalityId())
-                , genderService.getGenderById(memberInfoOptionsDto.getGenderId())
-                , raceService.getRaceById(memberInfoOptionsDto.getRaceId())
-                , occupationService.getOccupationById(memberInfoOptionsDto.getOccupationId())
-                , religionService.getReligionById(memberInfoOptionsDto.getReligionId())
+                nationalityService.findById(memberInfoOptionsDto.getNationalityId())
+                , genderService.findById(memberInfoOptionsDto.getGenderId())
+                , raceService.findById(memberInfoOptionsDto.getRaceId())
+                , occupationService.findById(memberInfoOptionsDto.getOccupationId())
+                , religionService.findById(memberInfoOptionsDto.getReligionId())
         );
 
         member.updateMemberInfo(memberInfo);
-        Role role = roleService.getRoleByName("ROLE_USER");
+        Role role = roleService.findByName("ROLE_USER");
         member.addRole(role);
 
-        memberInfoService.saveMemberInfo(member.getMemberInfo());
+        memberInfoService.save(member.getMemberInfo());
 
-        return memberService.saveMember(member);
+        return memberService.save(member);
 
     }
 }

@@ -15,9 +15,8 @@ public class Image extends AuditorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long imageId;
-    private Integer sequence;
-    private String originFileName;
-    private String uniqueFileName;
+    private String originFilename;
+    private String fileUrl;
 
     @ManyToOne
     @JoinColumn(name = "house_id")
@@ -27,5 +26,12 @@ public class Image extends AuditorEntity {
     @JoinColumn(name = "room_id")
     private Room room;
 
+    public Image(String originFilename, String fileUrl) {
+        this.originFilename = originFilename;
+        this.fileUrl = fileUrl;
+    }
 
+    public void updateHouse(House house) {
+        this.house = house;
+    }
 }

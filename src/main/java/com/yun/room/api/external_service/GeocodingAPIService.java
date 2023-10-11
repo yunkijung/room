@@ -1,4 +1,4 @@
-package com.yun.room.api.house.service;
+package com.yun.room.api.external_service;
 
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;

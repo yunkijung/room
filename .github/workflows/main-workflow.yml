@@ -59,6 +59,9 @@ jobs:
             DB_USERNAME=${{ secrets.DB_USERNAME }}
             DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}
+            BUCKET_NAME=${{ secrets.BUCKET_NAME }}
+            IAM_ACCESS_KEY=${{ secrets.IAM_ACCESS_KEY}}
+            IAM_SECRET_KEY=${{ secrets.IAM_SECRET_KEY }}
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}

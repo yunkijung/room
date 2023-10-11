@@ -14,7 +14,7 @@ public class GenderService {
     private final GenderRepository genderRepository;
 
     @Transactional
-    public Gender getGenderById(Long genderId) {
+    public Gender findById(Long genderId) {
         return genderRepository.findById(genderId).orElseThrow(() -> new IllegalArgumentException("해당 성별이 없습니다."));
     }
 }

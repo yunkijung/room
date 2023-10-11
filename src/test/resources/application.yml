@@ -31,3 +31,16 @@ logging.level:
 geocoding:
   api-key: ${GOOGLE_MAPS_API_KEY}
   service-url: https://maps.googleapis.com/maps/api/geocode/json
+
+cloud:
+  aws:
+    s3:
+      bucket: ${BUCKET_NAME}
+    stack:
+      auto: false
+    region:
+      static: us-east-1
+      auto: false
+    credentials:
+      accessKey: ${IAM_ACCESS_KEY}
+      secretKey: ${IAM_SECRET_KEY}

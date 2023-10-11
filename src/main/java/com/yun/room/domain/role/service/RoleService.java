@@ -13,7 +13,7 @@ public class RoleService {
     private final RoleRepository roleRepository;
 
     @Transactional
-    public Role getRoleByName(String name) {
+    public Role findByName(String name) {
         return roleRepository.findByName(name).orElseThrow(() -> new IllegalArgumentException("해당 권한이 없습니다."));
     }
 }

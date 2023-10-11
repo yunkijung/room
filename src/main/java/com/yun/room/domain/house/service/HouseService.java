@@ -15,12 +15,12 @@ public class HouseService {
     private final HouseRepository houseRepository;
 
     @Transactional
-    public House saveHouse(House house) {
+    public House save(House house) {
         return houseRepository.save(house);
     }
 
     @Transactional
-    public List<House> getAllHouses() {
+    public List<House> findAll() {
         return houseRepository.findAll();
     }
 }

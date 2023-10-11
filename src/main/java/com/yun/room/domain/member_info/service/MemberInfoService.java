@@ -13,7 +13,7 @@ public class MemberInfoService {
     private final MemberInfoRepository memberInfoRepository;
 
     @Transactional
-    public MemberInfo saveMemberInfo(MemberInfo memberInfo) {
+    public MemberInfo save(MemberInfo memberInfo) {
         return memberInfoRepository.save(memberInfo);
     }
 

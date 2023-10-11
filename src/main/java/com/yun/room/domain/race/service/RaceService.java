@@ -14,7 +14,7 @@ public class RaceService {
     private final RaceRepository raceRepository;
 
     @Transactional
-    public Race getRaceById(Long raceId) {
+    public Race findById(Long raceId) {
         return raceRepository.findById(raceId).orElseThrow(() -> new IllegalArgumentException("해당 인종이 없습니다."));
     }
 }
