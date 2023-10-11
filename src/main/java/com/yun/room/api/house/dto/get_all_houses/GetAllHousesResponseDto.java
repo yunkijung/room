@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class GetAllHousesResponseDto {
+    private Long houseId;
     private String title;
     private String description;
     private String street;
@@ -13,7 +14,8 @@ public class GetAllHousesResponseDto {
     private Double latitude;
     private Double longitude;
 
-    public GetAllHousesResponseDto(String title, String description, String street, String city, String country, String postalCode, Double latitude, Double longitude) {
+    public GetAllHousesResponseDto(Long houseId, String title, String description, String street, String city, String country, String postalCode, Double latitude, Double longitude) {
+        this.houseId = houseId;
         this.title = title;
         this.description = description;
         this.street = street;

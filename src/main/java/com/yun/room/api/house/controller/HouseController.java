@@ -86,7 +86,8 @@ public class HouseController {
         List<GetAllHousesResponseDto> responseDtos = new ArrayList<>();
         for (House house : allHouses) {
             responseDtos.add(new GetAllHousesResponseDto(
-                    house.getTitle()
+                    house.getHouseId()
+                    , house.getTitle()
                     , house.getDescription()
                     , house.getAddress().getStreet()
                     , house.getAddress().getCity()
