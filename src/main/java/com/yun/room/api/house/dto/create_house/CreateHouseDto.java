@@ -1,4 +1,4 @@
-package com.yun.room.api.house.dto;
+package com.yun.room.api.house.dto.create_house;
 
 import lombok.Data;
 

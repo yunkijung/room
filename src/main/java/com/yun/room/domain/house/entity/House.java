@@ -6,6 +6,7 @@ import com.yun.room.domain.member.entity.Member;
 import com.yun.room.domain.room.entity.Room;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.geo.Point;
 
 import javax.persistence.*;
 import java.util.List;
@@ -26,6 +27,8 @@ public class House extends AuditorEntity {
     @Embedded
     private Address address;
 
+    private Point point;
+
     private Integer roomCount;
     private Integer washroomCount;
     private Integer toiletCount;
@@ -43,6 +46,7 @@ public class House extends AuditorEntity {
             String title
             , String description
             , Address address
+            , Point point
             , Integer roomCount
             , Integer washroomCount
             , Integer toiletCount
@@ -51,11 +55,16 @@ public class House extends AuditorEntity {
         this.title = title;
         this.description = description;
         this.address = address;
+        this.point = point;
         this.roomCount = roomCount;
         this.washroomCount = washroomCount;
         this.toiletCount = toiletCount;
         this.kitchenCount = kitchenCount;
         this.livingRoomCount = livingRoomCount;
+    }
+
+    public void updatePoint(Point point) {
+        this.point = point;
     }
 
     public void updateHost(Member host) {

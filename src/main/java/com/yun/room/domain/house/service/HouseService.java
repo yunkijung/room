@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class HouseService {
@@ -15,5 +17,10 @@ public class HouseService {
     @Transactional
     public House saveHouse(House house) {
         return houseRepository.save(house);
+    }
+
+    @Transactional
+    public List<House> getAllHouses() {
+        return houseRepository.findAll();
     }
 }

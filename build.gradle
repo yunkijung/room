@@ -64,6 +64,11 @@ dependencies {
 	// swagger 적용
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
+	//Google Geocode API
+	implementation 'com.google.maps:google-maps-services:1.0.1'
+	implementation 'org.hibernate:hibernate-spatial:5.6.15.Final'
+	implementation 'org.locationtech.jts:jts-core:1.18.2'
 }
 
 tasks.named('test') {
