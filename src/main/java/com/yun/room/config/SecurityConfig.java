@@ -76,7 +76,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        // config.setAllowCredentials(true); // 이거 빼면 된다
+        config.setAllowCredentials(true); // 이거 빼면 된다s
         // https://gareen.tistory.com/66
         config.addAllowedOrigin("*");
         config.addAllowedMethod("*");
