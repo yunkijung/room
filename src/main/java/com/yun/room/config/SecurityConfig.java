@@ -78,8 +78,9 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true); // 이거 빼면 된다s
         // https://gareen.tistory.com/66
-        config.setAllowedOrigins(List.of("http://localhost", "http://54.162.37.145"));
+//        config.setAllowedOrigins(List.of("http://localhost", "http://54.162.37.145"));
         config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.setAllowedMethods(List.of("GET","POST","DELETE","PATCH","OPTION","PUT"));
         source.registerCorsConfiguration("/**", config);
