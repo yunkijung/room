@@ -30,6 +30,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -191,6 +192,31 @@ public class MemberController {
     public ResponseEntity userinfo(@IfLogin LoginUserDto loginUserDto) {
         Member member = memberService.findByEmail(loginUserDto.getEmail());
         return new ResponseEntity(loginUserDto, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/check/email")
+    public ResponseEntity checkEmail(@RequestParam String email) {
+        Optional<Member> findMember = memberService.checkByEmail(email);
+        Boolean result;
+        if(findMember.isEmpty()) {
+            result = false;
+        } else {
+            result = true;
+        }
+        return new ResponseEntity(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/check/name")
+    public ResponseEntity checkName(@RequestParam String name) {
+        Optional<Member> findMember = memberService.checkByName(name);
+        Boolean result;
+        if(findMember.isEmpty()) {
+            result = false;
+        } else {
+            result = true;
+        }
+        return new ResponseEntity(result, HttpStatus.OK);
     }
 
 }

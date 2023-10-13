@@ -32,6 +32,16 @@ public class MemberService {
         return memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
     }
 
+    @Transactional
+    public Optional<Member> checkByName(String name) {
+        return memberRepository.findByName(name);
+    }
+
+    @Transactional
+    public Optional<Member> checkByEmail(String email) {
+        return memberRepository.findByEmail(email);
+    }
+
 //    @Transactional(readOnly = true)
 //    public Optional<Member> getMember(String email){
 //        return memberRepository.findByEmail(email);
