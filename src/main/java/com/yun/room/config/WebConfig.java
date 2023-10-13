@@ -22,8 +22,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("http://localhost:3000")
 //                .allowedOrigins("https://www.fakeshop.com")
-                .allowedMethods("GET", "POST", "PATCH", "PUT", "OPTIONS", "DELETE");
-//                .allowCredentials(true);
+                .allowedMethods("GET", "POST", "PATCH", "PUT", "OPTIONS", "DELETE")
+                .allowCredentials(true);
     }
 
     @Override

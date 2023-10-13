@@ -17,7 +17,7 @@ public class RoomOfferR extends AuditorEntity {
     @Id
     @Column(name="room_offer_r_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long roomOfferRId;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "room_id")
@@ -26,4 +26,9 @@ public class RoomOfferR extends AuditorEntity {
     @ManyToOne
     @JoinColumn(name = "offer_r_id")
     private OfferR offerR;
+
+    public RoomOfferR(Room room, OfferR offerR) {
+        this.room = room;
+        this.offerR = offerR;
+    }
 }

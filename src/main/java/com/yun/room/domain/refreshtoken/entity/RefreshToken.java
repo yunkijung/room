@@ -15,6 +15,7 @@ import javax.persistence.*;
 @Getter
 public class RefreshToken extends AuditorEntity {
     @Id
+    @Column(name = "refresh_token_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long memberId;

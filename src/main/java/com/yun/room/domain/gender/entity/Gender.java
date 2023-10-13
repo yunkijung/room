@@ -3,18 +3,16 @@ package com.yun.room.domain.gender.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @NoArgsConstructor
 public class Gender {
     @Id
+    @Column(name = "gender_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long genderId;
+    private Long id;
 
     private String type;
 

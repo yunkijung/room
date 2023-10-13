@@ -13,8 +13,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Contract {
     @Id
+    @Column(name = "contract_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long contractId;
+    private Long id;
     private Integer price;
     private LocalDate moveInDate;
     private LocalDate moveOutDate;

@@ -3,10 +3,7 @@ package com.yun.room.domain.occupation.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -14,8 +11,9 @@ import javax.persistence.Id;
 public class Occupation {
 
     @Id
+    @Column(name = "occupation_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long occupationId;
+    private Long id;
 
     private String name;
 

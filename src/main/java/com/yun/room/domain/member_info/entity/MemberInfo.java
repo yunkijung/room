@@ -25,7 +25,7 @@ public class MemberInfo extends AuditorEntity {
     @Id // 이 필드가 Table의 PK.
     @Column(name="member_info_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberInfoId;
+    private Long id;
 
 
     @Column(nullable = false)

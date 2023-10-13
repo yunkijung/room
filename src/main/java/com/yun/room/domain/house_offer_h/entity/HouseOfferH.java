@@ -14,8 +14,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class HouseOfferH extends AuditorEntity {
     @Id
+    @Column(name = "house_offer_h_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long houseOfferHId;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "house_id")
@@ -24,4 +25,9 @@ public class HouseOfferH extends AuditorEntity {
     @ManyToOne
     @JoinColumn(name = "offer_h_id")
     private OfferH offerH;
+
+    public HouseOfferH(House house, OfferH offerH) {
+        this.house = house;
+        this.offerH = offerH;
+    }
 }

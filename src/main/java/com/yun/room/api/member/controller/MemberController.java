@@ -82,7 +82,7 @@ public class MemberController {
         Member savedMember = memberComponentService.signUp(member, memberInfo, memberInfoOptionsDto);
 
         MemberSignupResponseDto memberSignupResponse = new MemberSignupResponseDto();
-        memberSignupResponse.setMemberId(savedMember.getMemberId());
+        memberSignupResponse.setMemberId(savedMember.getId());
         memberSignupResponse.setName(savedMember.getName());
         memberSignupResponse.setRegdate(savedMember.getMemberInfo().getRegdate());
         memberSignupResponse.setEmail(savedMember.getEmail());
@@ -106,13 +106,13 @@ public class MemberController {
         List<String> roles = member.getRoles().stream().map(Role::getName).collect(Collectors.toList());
 
         // JWT토큰을 생성하였다. jwt라이브러리를 이용하여 생성.
-        String accessToken = jwtTokenizer.createAccessToken(member.getMemberId(), member.getEmail(), member.getName(), roles);
-        String refreshToken = jwtTokenizer.createRefreshToken(member.getMemberId(), member.getEmail(), member.getName(), roles);
+        String accessToken = jwtTokenizer.createAccessToken(member.getId(), member.getEmail(), member.getName(), roles);
+        String refreshToken = jwtTokenizer.createRefreshToken(member.getId(), member.getEmail(), member.getName(), roles);
 
         // RefreshToken을 DB에 저장한다. 성능 때문에 DB가 아니라 Redis에 저장하는 것이 좋다.
         RefreshToken refreshTokenEntity = new RefreshToken();
         refreshTokenEntity.setValue(refreshToken);
-        refreshTokenEntity.setMemberId(member.getMemberId());
+        refreshTokenEntity.setMemberId(member.getId());
         refreshTokenService.addRefreshToken(refreshTokenEntity);
 
         // create a cookie
@@ -132,7 +132,7 @@ public class MemberController {
         MemberLoginResponseDto loginResponse = MemberLoginResponseDto.builder()
                 .accessToken(accessToken)
                 .refreshToken("httoOnly")
-                .memberId(member.getMemberId())
+                .memberId(member.getId())
                 .nickname(member.getName())
                 .build();
         return new ResponseEntity(loginResponse, HttpStatus.OK);
@@ -181,7 +181,7 @@ public class MemberController {
         MemberLoginResponseDto loginResponse = MemberLoginResponseDto.builder()
                 .accessToken(accessToken)
                 .refreshToken("httpOnly")
-                .memberId(member.getMemberId())
+                .memberId(member.getId())
                 .nickname(member.getName())
                 .build();
         return new ResponseEntity(loginResponse, HttpStatus.OK);

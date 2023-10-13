@@ -12,8 +12,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class MemberRoomLike {
     @Id
+    @Column(name = "member_room_like_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberRoomLikeId;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "room_id")

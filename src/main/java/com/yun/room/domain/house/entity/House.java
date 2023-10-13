@@ -2,6 +2,8 @@ package com.yun.room.domain.house.entity;
 
 import com.yun.room.domain.common.auditor.AuditorEntity;
 import com.yun.room.domain.common.embedded.Address;
+import com.yun.room.domain.house_offer_h.entity.HouseOfferH;
+import com.yun.room.domain.house_rule_h.entity.HouseRuleH;
 import com.yun.room.domain.image.entity.Image;
 import com.yun.room.domain.member.entity.Member;
 import com.yun.room.domain.room.entity.Room;
@@ -20,7 +22,7 @@ public class House extends AuditorEntity {
     @Id
     @Column(name="house_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long houseId;
+    private Long id;
 
     private String title;
     private String description;
@@ -35,6 +37,12 @@ public class House extends AuditorEntity {
     private Integer toiletCount;
     private Integer kitchenCount;
     private Integer livingRoomCount;
+
+    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL, orphanRemoval=true)
+    private List<HouseOfferH> houseOfferHList;
+
+    @OneToMany(mappedBy = "house", cascade = CascadeType.ALL, orphanRemoval=true)
+    private List<HouseRuleH> houseRuleHList;
 
     @ManyToOne
     @JoinColumn(name = "host_id")
@@ -81,5 +89,12 @@ public class House extends AuditorEntity {
         for (Image image : images) {
             image.updateHouse(this);
         }
+    }
+
+    public void updateHouseOfferHList(List<HouseOfferH> houseOfferHList) {
+        this.houseOfferHList = houseOfferHList;
+    }
+    public void updateHouseRuleHList(List<HouseRuleH> houseRuleHList) {
+        this.houseRuleHList = houseRuleHList;
     }
 }

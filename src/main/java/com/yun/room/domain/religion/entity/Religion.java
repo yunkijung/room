@@ -3,10 +3,7 @@ package com.yun.room.domain.religion.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -14,8 +11,9 @@ import javax.persistence.Id;
 public class Religion {
 
     @Id
+    @Column(name = "religion_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long religionId;
+    private Long id;
 
     private String name;
 

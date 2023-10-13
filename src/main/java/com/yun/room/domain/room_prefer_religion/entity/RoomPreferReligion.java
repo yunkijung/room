@@ -13,8 +13,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class RoomPreferReligion {
     @Id
+    @Column(name = "room_prefer_religion_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long roomPreferReligionId;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "room_id")

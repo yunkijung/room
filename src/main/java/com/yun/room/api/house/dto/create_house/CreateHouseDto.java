@@ -37,4 +37,7 @@ public class CreateHouseDto {
     @NotNull
     @Min(value=0, message="Minimum count is 1")
     private int livingRoomCount;
+
+    private List<Long> houseRules;
+    private List<Long> houseOffers;
 }

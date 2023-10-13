@@ -4,18 +4,22 @@ import com.yun.room.domain.common.auditor.AuditorEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @NoArgsConstructor
 public class OfferR extends AuditorEntity {
     @Id
+    @Column(name = "offer_r_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long offerRId;
+    private Long id;
 
     private String type;
+    private String description;
+
+    public OfferR(String type, String description) {
+        this.type = type;
+        this.description = description;
+    }
 }

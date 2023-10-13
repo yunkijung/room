@@ -13,8 +13,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Image extends AuditorEntity {
     @Id
+    @Column(name = "image_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long imageId;
+    private Long id;
     private String originFilename;
     private String fileUrl;
 
@@ -33,5 +34,8 @@ public class Image extends AuditorEntity {
 
     public void updateHouse(House house) {
         this.house = house;
+    }
+    public void updateRoom(Room room) {
+        this.room = room;
     }
 }

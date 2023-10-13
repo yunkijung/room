@@ -13,7 +13,7 @@ public class MemberImage {
     @Id
     @Column(name="member_image_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberImageId;
+    private Long id;
 
     private String originFileName;
 

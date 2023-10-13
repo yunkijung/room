@@ -13,8 +13,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class RoomPreferOccupation {
     @Id
+    @Column(name = "room_prefer_occupation_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long roomPreferOccupationId;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "room_id")

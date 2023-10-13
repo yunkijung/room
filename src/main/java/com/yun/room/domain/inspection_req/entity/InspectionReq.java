@@ -15,8 +15,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class InspectionReq {
     @Id
+    @Column(name = "inspection_req_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long inspectionReqId;
+    private Long id;
 
     private LocalDateTime inspectionDateTime;
     private LocalDate moveInDate;

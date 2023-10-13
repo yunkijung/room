@@ -23,4 +23,9 @@ public class HouseService {
     public List<House> findAll() {
         return houseRepository.findAll();
     }
+
+    @Transactional
+    public House findById(Long id) {
+        return houseRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Not exist."));
+    }
 }

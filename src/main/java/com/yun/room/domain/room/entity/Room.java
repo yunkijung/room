@@ -2,11 +2,15 @@ package com.yun.room.domain.room.entity;
 
 import com.yun.room.domain.common.auditor.AuditorEntity;
 import com.yun.room.domain.house.entity.House;
+import com.yun.room.domain.house_offer_h.entity.HouseOfferH;
+import com.yun.room.domain.image.entity.Image;
+import com.yun.room.domain.room_offer_r.entity.RoomOfferR;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Getter
@@ -15,7 +19,7 @@ public class Room extends AuditorEntity {
     @Id
     @Column(name="room_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long roomId;
+    private Long id;
 
     private String title;
     private String description;
@@ -23,7 +27,40 @@ public class Room extends AuditorEntity {
     private Integer minStay;
     private Boolean isOn;
     private LocalDate availableDate;
+
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval=true)
+    private List<RoomOfferR> roomOfferRList;
+
     @ManyToOne
     @JoinColumn(name = "house_id")
     private House house;
+
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval=true)
+    private List<Image> images;
+
+    public Room(String title, String description, Integer price, Integer minStay, Boolean isOn, LocalDate availableDate) {
+        this.title = title;
+        this.description = description;
+        this.price = price;
+        this.minStay = minStay;
+        this.isOn = isOn;
+        this.availableDate = availableDate;
+    }
+
+    public void updateHouse(House house) {
+        this.house = house;
+        house.getRooms().add(this);
+    }
+
+    public void updateImages(List<Image> images) {
+        this.images = images;
+        for (Image image : images) {
+            image.updateRoom(this);
+//            image.updateHouse(this.house);
+        }
+    }
+
+    public void updateRoomOfferRList(List<RoomOfferR> roomOfferRList) {
+        this.roomOfferRList = roomOfferRList;
+    }
 }
