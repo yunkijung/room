@@ -5,6 +5,7 @@ import lombok.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -29,19 +30,7 @@ public class MemberSignupDto {
     private String name;
 
     @NotNull
-    @Pattern(regexp = "^\\d{4}$", message = "생년은 4자리 숫자로 입력해야 합니다")
-    private String birthYear;
-
-    @NotNull
-    @Pattern(regexp = "^(0?[1-9]|1[012])$", message = "생월은 1부터 12까지의 숫자로 입력해야 합니다")
-    private String birthMonth;
-
-    @NotNull
-    @Pattern(regexp = "^(0?[1-9]|[12][0-9]|3[01])$", message = "생일은 1부터 31까지의 숫자로 입력해야 합니다")
-    private String birthDay;
-
-    @NotNull
-    private String phone;
+    private LocalDate birth;
 
     @NotNull
     private Long genderId;

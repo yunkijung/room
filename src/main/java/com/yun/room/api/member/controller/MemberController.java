@@ -64,11 +64,7 @@ public class MemberController {
                 , Boolean.FALSE);
 
 
-        MemberInfo memberInfo = new MemberInfo(Integer.parseInt(memberSignupDto.getBirthYear())
-                , Integer.parseInt(memberSignupDto.getBirthMonth())
-                , Integer.parseInt(memberSignupDto.getBirthDay())
-                , memberSignupDto.getPhone());
-
+        MemberInfo memberInfo = new MemberInfo(memberSignupDto.getBirth());
 
 
         MemberInfoOptionsDto memberInfoOptionsDto = new MemberInfoOptionsDto(

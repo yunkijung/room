@@ -11,9 +11,11 @@ import com.yun.room.domain.religion.entity.Religion;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.bytebuddy.asm.Advice;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -27,17 +29,9 @@ public class MemberInfo extends AuditorEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
+    private LocalDate birth;
 
-    @Column(nullable = false)
-    private Integer birthYear;
-
-    @Column(nullable = false)
-    private Integer birthMonth;
-
-    @Column(nullable = false)
-    private Integer birthDay;
-
-    private String phone;
 
     @CreationTimestamp // 현재시간이 저장될 때 자동으로 생성.
     private LocalDateTime regdate;
@@ -70,15 +64,9 @@ public class MemberInfo extends AuditorEntity {
     private Member member;
 
     public MemberInfo(
-            Integer birthYear
-            , Integer birthMonth
-            , Integer birthDay
-            , String phone
+            LocalDate birth
     ) {
-        this.birthYear = birthYear;
-        this.birthMonth = birthMonth;
-        this.birthDay = birthDay;
-        this.phone = phone;
+        this.birth = birth;
     }
 
     public void updateOptions(
