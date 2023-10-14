@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -114,7 +115,10 @@ public class HouseController {
 
         House savedHouse = houseComponentService.createHouse(house, loginUserDto.getMemberId(), images, createHouseDto.getHouseOffers(), createHouseDto.getHouseRules());
 
-        return new ResponseEntity(savedHouse.getId(), HttpStatus.OK);
+        HashMap<String, Object> resultMap = new HashMap<>();
+        resultMap.put("houseId", savedHouse.getId());
+
+        return new ResponseEntity(resultMap, HttpStatus.OK);
     }
 
     @GetMapping
@@ -188,6 +192,8 @@ public class HouseController {
                     , roomDtos
             ));
         }
-        return new ResponseEntity(responseDtos, HttpStatus.OK);
+        HashMap<String, Object> resultMap = new HashMap<>();
+        resultMap.put("houseList", responseDtos);
+        return new ResponseEntity(resultMap, HttpStatus.OK);
     }
 }

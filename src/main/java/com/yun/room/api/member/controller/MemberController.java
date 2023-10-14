@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -84,8 +85,10 @@ public class MemberController {
         memberSignupResponse.setRegdate(savedMember.getMemberInfo().getRegdate());
         memberSignupResponse.setEmail(savedMember.getEmail());
 
+        HashMap<String, Object> resultMap = new HashMap<>();
+        resultMap.put("member", memberSignupResponse);
         // 회원가입
-        return new ResponseEntity(memberSignupResponse, HttpStatus.CREATED);
+        return new ResponseEntity(resultMap, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
@@ -132,7 +135,11 @@ public class MemberController {
                 .memberId(member.getId())
                 .nickname(member.getName())
                 .build();
-        return new ResponseEntity(loginResponse, HttpStatus.OK);
+
+        HashMap<String, Object> resultMap = new HashMap<>();
+        resultMap.put("member", loginResponse);
+
+        return new ResponseEntity(resultMap, HttpStatus.OK);
     }
 
     @DeleteMapping("/logout")
@@ -181,13 +188,20 @@ public class MemberController {
                 .memberId(member.getId())
                 .nickname(member.getName())
                 .build();
-        return new ResponseEntity(loginResponse, HttpStatus.OK);
+
+        HashMap<String, Object> resultMap = new HashMap<>();
+        resultMap.put("member", loginResponse);
+
+        return new ResponseEntity(resultMap, HttpStatus.OK);
     }
 
     @GetMapping("/info")
     public ResponseEntity userinfo(@IfLogin LoginUserDto loginUserDto) {
         Member member = memberService.findByEmail(loginUserDto.getEmail());
-        return new ResponseEntity(loginUserDto, HttpStatus.OK);
+        HashMap<String, Object> resultMap = new HashMap<>();
+        resultMap.put("member", loginUserDto);
+
+        return new ResponseEntity(resultMap, HttpStatus.OK);
     }
 
 
@@ -200,7 +214,10 @@ public class MemberController {
         } else {
             result = true;
         }
-        return new ResponseEntity(result, HttpStatus.OK);
+        HashMap<String, Object> resultMap = new HashMap<>();
+        resultMap.put("exist", result);
+
+        return new ResponseEntity(resultMap, HttpStatus.OK);
     }
 
     @GetMapping("/check/name")
@@ -212,7 +229,10 @@ public class MemberController {
         } else {
             result = true;
         }
-        return new ResponseEntity(result, HttpStatus.OK);
+        HashMap<String, Object> resultMap = new HashMap<>();
+        resultMap.put("exist", result);
+
+        return new ResponseEntity(resultMap, HttpStatus.OK);
     }
 
 }

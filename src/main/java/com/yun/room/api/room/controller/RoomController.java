@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,6 +61,9 @@ public class RoomController {
 
         Room savedRoom = roomComponentService.createRoom(room, createRoomDto.getHouseId(), images, createRoomDto.getRoomOffers());
 
-        return new ResponseEntity(savedRoom.getId(), HttpStatus.OK);
+        HashMap<String, Object> resultMap = new HashMap<>();
+        resultMap.put("roomId", savedRoom.getId());
+
+        return new ResponseEntity(resultMap, HttpStatus.OK);
     }
 }
