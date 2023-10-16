@@ -15,6 +15,13 @@ public class HouseResponseDto {
     private String city;
     private String country;
     private String postalCode;
+
+    private int roomCount;
+    private int washroomCount;
+    private int toiletCount;
+    private int kitchenCount;
+    private int livingRoomCount;
+
     private Double latitude;
     private Double longitude;
     private List<ImageDto> images;

@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class RoomDto {
+    private Long roomId;
     private String title;
     private String description;
     private int price;

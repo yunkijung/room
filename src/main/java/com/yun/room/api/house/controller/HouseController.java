@@ -163,7 +163,8 @@ public class HouseController {
                 }
 
                 roomDtos.add(new RoomDto(
-                        room.getTitle()
+                        room.getId()
+                        , room.getTitle()
                         , room.getDescription()
                         , room.getPrice()
                         , room.getMinStay()
@@ -184,6 +185,11 @@ public class HouseController {
                     , house.getAddress().getCity()
                     , house.getAddress().getCountry()
                     , house.getAddress().getPostalCode()
+                    , house.getRoomCount()
+                    , house.getWashroomCount()
+                    , house.getToiletCount()
+                    , house.getKitchenCount()
+                    , house.getLivingRoomCount()
                     , house.getPoint().getX()
                     , house.getPoint().getY()
                     , imageDtos
