@@ -62,6 +62,8 @@ jobs:
             BUCKET_NAME=${{ secrets.BUCKET_NAME }}
             IAM_ACCESS_KEY=${{ secrets.IAM_ACCESS_KEY}}
             IAM_SECRET_KEY=${{ secrets.IAM_SECRET_KEY }}
+            SECRET_KEY=${{ secrets.SECRET_KEY }}
+            REFRESH_KEY=${{ secrets.REFRESH_KEY }}
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}

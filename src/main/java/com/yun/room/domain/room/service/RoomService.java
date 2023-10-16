@@ -15,4 +15,7 @@ public class RoomService {
     public Room save(Room room) {
         return roomRepository.save(room);
     }
+
+    @Transactional
+    public Room findById(Long id) { return roomRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No result")); }
 }
