@@ -1,7 +1,7 @@
 # key? 32byte (256bit)
 jwt:
-  secretKey: {SECRET_KEY}
-  refreshKey: {REFRESH_KEY}
+  secretKey: ${SECRET_KEY}
+  refreshKey: ${REFRESH_KEY}
 
 spring:
   profiles:
