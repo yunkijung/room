@@ -1,5 +1,6 @@
 package com.yun.room.api.member.controller;
 
+import com.yun.room.api.house.dto.get_all_houses.*;
 import com.yun.room.api.member.dto.login.MemberLoginDto;
 import com.yun.room.api.member.dto.login.MemberLoginResponseDto;
 
@@ -7,6 +8,11 @@ import com.yun.room.api.member.dto.signup.MemberSignupDto;
 import com.yun.room.api.member.dto.signup.MemberSignupResponseDto;
 import com.yun.room.domain.component_service.member.dto.MemberInfoOptionsDto;
 import com.yun.room.domain.component_service.member.service.MemberComponentService;
+import com.yun.room.domain.house.entity.House;
+import com.yun.room.domain.house.service.HouseService;
+import com.yun.room.domain.house_offer_h.entity.HouseOfferH;
+import com.yun.room.domain.house_rule_h.entity.HouseRuleH;
+import com.yun.room.domain.image.entity.Image;
 import com.yun.room.domain.member.entity.Member;
 import com.yun.room.domain.member.service.MemberService;
 import com.yun.room.domain.member_info.entity.MemberInfo;
@@ -14,11 +20,14 @@ import com.yun.room.domain.refreshtoken.entity.RefreshToken;
 import com.yun.room.domain.refreshtoken.service.RefreshTokenService;
 import com.yun.room.domain.religion.service.ReligionService;
 import com.yun.room.domain.role.entity.Role;
+import com.yun.room.domain.room.entity.Room;
+import com.yun.room.domain.room_offer_r.entity.RoomOfferR;
 import com.yun.room.security.jwt.util.IfLogin;
 import com.yun.room.security.jwt.util.JwtTokenizer;
 import com.yun.room.security.jwt.util.LoginUserDto;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,11 +38,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @Validated
@@ -46,6 +56,7 @@ public class MemberController {
     private final PasswordEncoder passwordEncoder;
 
     private final MemberComponentService memberComponentService;
+    private final HouseService houseService;
 
 //    public MemberController(JwtTokenizer jwtTokenizer, MemberService memberService, RefreshTokenService refreshTokenService, PasswordEncoder passwordEncoder) {
 //        this.jwtTokenizer = jwtTokenizer;
@@ -231,6 +242,93 @@ public class MemberController {
         }
         HashMap<String, Object> resultMap = new HashMap<>();
         resultMap.put("exist", result);
+
+        return new ResponseEntity(resultMap, HttpStatus.OK);
+    }
+
+    @GetMapping("/houses/business")
+    public ResponseEntity getMyHouses(@IfLogin LoginUserDto loginUserDto) {
+        Long memberId = loginUserDto.getMemberId();
+
+        List<House> houses = houseService.findAllByHost(memberId);
+
+        List<HouseResponseDto> responseDtos = new ArrayList<>();
+
+        //House data transfer
+        for (House house : houses) {
+            List<Image> images = house.getImages();
+            List<ImageDto> imageDtos = new ArrayList<>();
+            for (Image image : images) {
+                imageDtos.add(new ImageDto(image.getOriginFilename(), image.getFileUrl()));
+            }
+
+            List<HouseOfferH> houseOfferHList = house.getHouseOfferHList();
+            List<OfferDto> offerDtos = new ArrayList<>();
+            for (HouseOfferH houseOfferH : houseOfferHList) {
+                offerDtos.add(new OfferDto(houseOfferH.getOfferH().getType(), houseOfferH.getOfferH().getDescription()));
+            }
+
+            List<HouseRuleH> houseRuleHList = house.getHouseRuleHList();
+            List<RuleDto> ruleDtos = new ArrayList<>();
+            for (HouseRuleH houseRuleH : houseRuleHList) {
+                ruleDtos.add(new RuleDto(houseRuleH.getRuleH().getType(), houseRuleH.getRuleH().getDescription()));
+            }
+
+            //Room data transfer
+            List<Room> rooms = house.getRooms();
+            List<RoomDto> roomDtos = new ArrayList<>();
+            for (Room room : rooms) {
+                List<Image> roomImages = room.getImages();
+                List<ImageDto> roomImageDtos = new ArrayList<>();
+                for (Image roomImage : roomImages) {
+                    roomImageDtos.add(new ImageDto(roomImage.getOriginFilename(), roomImage.getFileUrl()));
+                }
+
+                List<RoomOfferR> roomOfferRList = room.getRoomOfferRList();
+                List<OfferDto> roomOfferDtos = new ArrayList<>();
+                for (RoomOfferR roomOfferR : roomOfferRList) {
+                    roomOfferDtos.add(new OfferDto(roomOfferR.getOfferR().getType(), roomOfferR.getOfferR().getDescription()));
+                }
+
+                roomDtos.add(new RoomDto(
+                        room.getId()
+                        , room.getTitle()
+                        , room.getDescription()
+                        , room.getPrice()
+                        , room.getMinStay()
+                        , room.getIsOn()
+                        , room.getAvailableDate()
+                        , roomImageDtos
+                        , roomOfferDtos
+                ));
+
+            }
+
+
+            responseDtos.add(new HouseResponseDto(
+                    house.getId()
+                    , house.getTitle()
+                    , house.getDescription()
+                    , house.getAddress().getStreet()
+                    , house.getAddress().getCity()
+                    , house.getAddress().getCountry()
+                    , house.getAddress().getPostalCode()
+                    , house.getRoomCount()
+                    , house.getWashroomCount()
+                    , house.getToiletCount()
+                    , house.getKitchenCount()
+                    , house.getLivingRoomCount()
+                    , house.getPoint().getX()
+                    , house.getPoint().getY()
+                    , imageDtos
+                    , offerDtos
+                    , ruleDtos
+                    , roomDtos
+            ));
+        }
+
+        HashMap<String, Object> resultMap = new HashMap<>();
+        resultMap.put("houseList", responseDtos);
 
         return new ResponseEntity(resultMap, HttpStatus.OK);
     }

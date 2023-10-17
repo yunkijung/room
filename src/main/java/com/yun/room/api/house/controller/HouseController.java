@@ -281,4 +281,6 @@ public class HouseController {
 
         return new ResponseEntity(resultMap, HttpStatus.OK);
     }
+
+
 }

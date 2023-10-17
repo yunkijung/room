@@ -4,11 +4,12 @@ import com.yun.room.domain.house.entity.House;
 import com.yun.room.domain.house.repository.HouseRepository;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class HouseService {
@@ -27,5 +28,10 @@ public class HouseService {
     @Transactional
     public House findById(Long id) {
         return houseRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Not exist."));
+    }
+
+    @Transactional
+    public List<House> findAllByHost(Long id) {
+        return houseRepository.findByHost_Id(id);
     }
 }
