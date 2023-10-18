@@ -1,9 +1,11 @@
 package com.yun.room.api.room.dto.get_room;
 
 import com.yun.room.api.house.dto.get_all_houses.ImageDto;
-import com.yun.room.api.house.dto.get_all_houses.OfferDto;
+
 import com.yun.room.api.house.dto.get_all_houses.RoomDto;
-import com.yun.room.api.house.dto.get_all_houses.RuleDto;
+
+import com.yun.room.api.house.dto.get_options.OfferHDto;
+import com.yun.room.api.house.dto.get_options.RuleHDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -28,7 +30,7 @@ public class HouseDto {
     private Double latitude;
     private Double longitude;
     private List<ImageDto> images;
-    private List<OfferDto> houseOffers;
-    private List<RuleDto> houseRules;
+    private List<OfferHDto> houseOffers;
+    private List<RuleHDto> houseRules;
     private List<RoomDto> rooms;
 }

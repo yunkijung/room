@@ -1,11 +1,14 @@
 package com.yun.room.api.member.controller;
 
 import com.yun.room.api.house.dto.get_all_houses.*;
+import com.yun.room.api.house.dto.get_options.OfferHDto;
+import com.yun.room.api.house.dto.get_options.RuleHDto;
 import com.yun.room.api.member.dto.login.MemberLoginDto;
 import com.yun.room.api.member.dto.login.MemberLoginResponseDto;
 
 import com.yun.room.api.member.dto.signup.MemberSignupDto;
 import com.yun.room.api.member.dto.signup.MemberSignupResponseDto;
+import com.yun.room.api.room.dto.get_options.OfferRDto;
 import com.yun.room.domain.component_service.member.dto.MemberInfoOptionsDto;
 import com.yun.room.domain.component_service.member.service.MemberComponentService;
 import com.yun.room.domain.house.entity.House;
@@ -259,19 +262,19 @@ public class MemberController {
             List<Image> images = house.getImages();
             List<ImageDto> imageDtos = new ArrayList<>();
             for (Image image : images) {
-                imageDtos.add(new ImageDto(image.getOriginFilename(), image.getFileUrl()));
+                imageDtos.add(new ImageDto(image));
             }
 
             List<HouseOfferH> houseOfferHList = house.getHouseOfferHList();
-            List<OfferDto> offerDtos = new ArrayList<>();
+            List<OfferHDto> offerHDtos = new ArrayList<>();
             for (HouseOfferH houseOfferH : houseOfferHList) {
-                offerDtos.add(new OfferDto(houseOfferH.getOfferH().getType(), houseOfferH.getOfferH().getDescription()));
+                offerHDtos.add(new OfferHDto(houseOfferH.getOfferH()));
             }
 
             List<HouseRuleH> houseRuleHList = house.getHouseRuleHList();
-            List<RuleDto> ruleDtos = new ArrayList<>();
+            List<RuleHDto> ruleHDtos = new ArrayList<>();
             for (HouseRuleH houseRuleH : houseRuleHList) {
-                ruleDtos.add(new RuleDto(houseRuleH.getRuleH().getType(), houseRuleH.getRuleH().getDescription()));
+                ruleHDtos.add(new RuleHDto(houseRuleH.getRuleH()));
             }
 
             //Room data transfer
@@ -281,13 +284,13 @@ public class MemberController {
                 List<Image> roomImages = room.getImages();
                 List<ImageDto> roomImageDtos = new ArrayList<>();
                 for (Image roomImage : roomImages) {
-                    roomImageDtos.add(new ImageDto(roomImage.getOriginFilename(), roomImage.getFileUrl()));
+                    roomImageDtos.add(new ImageDto(roomImage));
                 }
 
                 List<RoomOfferR> roomOfferRList = room.getRoomOfferRList();
-                List<OfferDto> roomOfferDtos = new ArrayList<>();
+                List<OfferRDto> roomOfferRDtos = new ArrayList<>();
                 for (RoomOfferR roomOfferR : roomOfferRList) {
-                    roomOfferDtos.add(new OfferDto(roomOfferR.getOfferR().getType(), roomOfferR.getOfferR().getDescription()));
+                    roomOfferRDtos.add(new OfferRDto(roomOfferR.getOfferR()));
                 }
 
                 roomDtos.add(new RoomDto(
@@ -299,7 +302,7 @@ public class MemberController {
                         , room.getIsOn()
                         , room.getAvailableDate()
                         , roomImageDtos
-                        , roomOfferDtos
+                        , roomOfferRDtos
                 ));
 
             }
@@ -321,8 +324,8 @@ public class MemberController {
                     , house.getPoint().getX()
                     , house.getPoint().getY()
                     , imageDtos
-                    , offerDtos
-                    , ruleDtos
+                    , offerHDtos
+                    , ruleHDtos
                     , roomDtos
             ));
         }

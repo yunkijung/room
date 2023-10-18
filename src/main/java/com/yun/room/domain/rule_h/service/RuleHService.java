@@ -17,4 +17,9 @@ public class RuleHService {
     public List<RuleH> findAllByIdIn(List<Long> ids) {
         return ruleHRepository.findAllByIdIn(ids);
     }
+
+    @Transactional
+    public List<RuleH> findAll() {
+        return ruleHRepository.findAll();
+    }
 }

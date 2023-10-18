@@ -17,4 +17,8 @@ public class OfferHService {
     public List<OfferH> findAllByIdIn(List<Long> ids) {
         return offerHRepository.findAllByIdIn(ids);
     }
+    @Transactional
+    public List<OfferH> findAll() {
+        return offerHRepository.findAll();
+    }
 }

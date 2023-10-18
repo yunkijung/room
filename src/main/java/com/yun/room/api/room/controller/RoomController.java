@@ -3,10 +3,13 @@ package com.yun.room.api.room.controller;
 import com.yun.room.api.external_service.S3UploadService;
 
 import com.yun.room.api.house.dto.get_all_houses.ImageDto;
-import com.yun.room.api.house.dto.get_all_houses.OfferDto;
+
 import com.yun.room.api.house.dto.get_all_houses.RoomDto;
-import com.yun.room.api.house.dto.get_all_houses.RuleDto;
+
+import com.yun.room.api.house.dto.get_options.OfferHDto;
+import com.yun.room.api.house.dto.get_options.RuleHDto;
 import com.yun.room.api.room.dto.create_room.CreateRoomDto;
+import com.yun.room.api.room.dto.get_options.OfferRDto;
 import com.yun.room.api.room.dto.get_room.HouseDto;
 import com.yun.room.api.room.dto.get_room.RoomResponseDto;
 import com.yun.room.domain.component_service.room.service.RoomComponentService;
@@ -14,6 +17,8 @@ import com.yun.room.domain.house.entity.House;
 import com.yun.room.domain.house_offer_h.entity.HouseOfferH;
 import com.yun.room.domain.house_rule_h.entity.HouseRuleH;
 import com.yun.room.domain.image.entity.Image;
+import com.yun.room.domain.offer_r.entity.OfferR;
+import com.yun.room.domain.offer_r.service.OfferRService;
 import com.yun.room.domain.room.entity.Room;
 import com.yun.room.domain.room.service.RoomService;
 import com.yun.room.domain.room_offer_r.entity.RoomOfferR;
@@ -44,6 +49,7 @@ public class RoomController {
     private final S3UploadService s3UploadService;
     private final RoomComponentService roomComponentService;
     private final RoomService roomService;
+    private final OfferRService offerRService;
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity createRoom(@IfLogin LoginUserDto loginUserDto, @RequestPart @Valid CreateRoomDto createRoomDto, @RequestPart @Valid Optional<List<MultipartFile>> files, BindingResult bindingResult) {
@@ -83,13 +89,13 @@ public class RoomController {
         List<Image> roomImages = room.getImages();
         List<ImageDto> roomImageDtos = new ArrayList<>();
         for (Image roomImage : roomImages) {
-            roomImageDtos.add(new ImageDto(roomImage.getOriginFilename(), roomImage.getFileUrl()));
+            roomImageDtos.add(new ImageDto(roomImage));
         }
 
         List<RoomOfferR> roomOfferRList = room.getRoomOfferRList();
-        List<OfferDto> roomOfferDtos = new ArrayList<>();
+        List<OfferRDto> roomOfferRDtos = new ArrayList<>();
         for (RoomOfferR roomOfferR : roomOfferRList) {
-            roomOfferDtos.add(new OfferDto(roomOfferR.getOfferR().getType(), roomOfferR.getOfferR().getDescription()));
+            roomOfferRDtos.add(new OfferRDto(roomOfferR.getOfferR()));
         }
 
         ///////
@@ -97,19 +103,19 @@ public class RoomController {
         List<Image> images = house.getImages();
         List<ImageDto> imageDtos = new ArrayList<>();
         for (Image image : images) {
-            imageDtos.add(new ImageDto(image.getOriginFilename(), image.getFileUrl()));
+            imageDtos.add(new ImageDto(image));
         }
 
         List<HouseOfferH> houseOfferHList = house.getHouseOfferHList();
-        List<OfferDto> offerDtos = new ArrayList<>();
+        List<OfferHDto> offerHDtos = new ArrayList<>();
         for (HouseOfferH houseOfferH : houseOfferHList) {
-            offerDtos.add(new OfferDto(houseOfferH.getOfferH().getType(), houseOfferH.getOfferH().getDescription()));
+            offerHDtos.add(new OfferHDto(houseOfferH.getOfferH()));
         }
 
         List<HouseRuleH> houseRuleHList = house.getHouseRuleHList();
-        List<RuleDto> ruleDtos = new ArrayList<>();
+        List<RuleHDto> ruleHDtos = new ArrayList<>();
         for (HouseRuleH houseRuleH : houseRuleHList) {
-            ruleDtos.add(new RuleDto(houseRuleH.getRuleH().getType(), houseRuleH.getRuleH().getDescription()));
+            ruleHDtos.add(new RuleHDto(houseRuleH.getRuleH()));
         }
 
         //Room from house data transfer
@@ -121,13 +127,13 @@ public class RoomController {
             List<Image> roomFromHouseImages = roomFromHouse.getImages();
             List<ImageDto> roomFromHouseImageDtos = new ArrayList<>();
             for (Image roomFromHouseImage : roomFromHouseImages) {
-                roomFromHouseImageDtos.add(new ImageDto(roomFromHouseImage.getOriginFilename(), roomFromHouseImage.getFileUrl()));
+                roomFromHouseImageDtos.add(new ImageDto(roomFromHouseImage));
             }
 
             List<RoomOfferR> roomFromHouseOfferRList = roomFromHouse.getRoomOfferRList();
-            List<OfferDto> roomFromHouseOfferDtos = new ArrayList<>();
+            List<OfferRDto> roomFromHouseOfferRDtos = new ArrayList<>();
             for (RoomOfferR roomFromHouseOfferR : roomFromHouseOfferRList) {
-                roomFromHouseOfferDtos.add(new OfferDto(roomFromHouseOfferR.getOfferR().getType(), roomFromHouseOfferR.getOfferR().getDescription()));
+                roomFromHouseOfferRDtos.add(new OfferRDto(roomFromHouseOfferR.getOfferR()));
             }
 
             roomDtos.add(new RoomDto(
@@ -139,7 +145,7 @@ public class RoomController {
                     , roomFromHouse.getIsOn()
                     , roomFromHouse.getAvailableDate()
                     , roomFromHouseImageDtos
-                    , roomFromHouseOfferDtos
+                    , roomFromHouseOfferRDtos
             ));
 
         }
@@ -160,8 +166,8 @@ public class RoomController {
                 , house.getPoint().getX()
                 , house.getPoint().getY()
                 , imageDtos
-                , offerDtos
-                , ruleDtos
+                , offerHDtos
+                , ruleHDtos
                 , roomDtos
         );
 
@@ -174,12 +180,27 @@ public class RoomController {
                 , room.getIsOn()
                 , room.getAvailableDate()
                 , roomImageDtos
-                , roomOfferDtos
+                , roomOfferRDtos
                 , houseDto
         );
 
         HashMap<String, Object> resultMap = new HashMap<>();
         resultMap.put("room", roomResponseDto);
+        return new ResponseEntity(resultMap, HttpStatus.OK);
+    }
+
+    @GetMapping("/options")
+    public ResponseEntity getOptions() {
+
+        List<OfferR> offers = offerRService.findAll();
+        List<OfferRDto> offerRDtos = new ArrayList<>();
+        for (OfferR offer : offers) {
+            offerRDtos.add(new OfferRDto(offer));
+        }
+
+
+        HashMap<String, Object> resultMap = new HashMap<>();
+        resultMap.put("offers", offerRDtos);
         return new ResponseEntity(resultMap, HttpStatus.OK);
     }
 }

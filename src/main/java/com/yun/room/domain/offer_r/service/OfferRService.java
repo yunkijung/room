@@ -17,4 +17,9 @@ public class OfferRService {
     public List<OfferR> findAllByIdIn(List<Long> ids) {
         return offerRRepository.findAllByIdIn(ids);
     }
+
+    @Transactional
+    public List<OfferR> findAll() {
+        return offerRRepository.findAll();
+    }
 }

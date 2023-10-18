@@ -1,7 +1,8 @@
 package com.yun.room.api.room.dto.get_room;
 
 import com.yun.room.api.house.dto.get_all_houses.ImageDto;
-import com.yun.room.api.house.dto.get_all_houses.OfferDto;
+
+import com.yun.room.api.room.dto.get_options.OfferRDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -19,7 +20,7 @@ public class RoomResponseDto {
     private Boolean isOn;
     private LocalDate availableDate;
     private List<ImageDto> images;
-    private List<OfferDto> roomOffers;
+    private List<OfferRDto> roomOffers;
     private HouseDto house;
 }
 
