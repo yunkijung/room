@@ -116,6 +116,7 @@ public class HouseController {
         List<Image> images = new ArrayList<>();
         try{
             if (!files.isEmpty()) {
+                log.info("images sent {}", files);
                 images = s3UploadService.saveFiles(files.get());
             }
         } catch (Exception e) {
