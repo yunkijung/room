@@ -84,12 +84,12 @@ public class DataInitializer {
                 religionRepository.save(religion2);
             }
             if(ruleHRepository.count() == 0) {
-                RuleH ruleH1 = new RuleH("", "Please, Make less noisy after 10pm.");
-                RuleH ruleH2 = new RuleH("", "Extra costs for car parking ( Apartment )");
-                RuleH ruleH3 = new RuleH("", "2 weeks notice, please.");
-                RuleH ruleH4 = new RuleH("", "No entry for heavy smoker.");
-                RuleH ruleH5 = new RuleH("", "Sorry. No allowed Pets.");
-                RuleH ruleH6 = new RuleH("", "Must be wash the stuff after using.");
+                RuleH ruleH1 = new RuleH("ruleH1", "Please, Make less noisy after 10pm.");
+                RuleH ruleH2 = new RuleH("ruleH2", "Extra costs for car parking ( Apartment )");
+                RuleH ruleH3 = new RuleH("ruleH3", "2 weeks notice, please.");
+                RuleH ruleH4 = new RuleH("ruleH4", "No entry for heavy smoker.");
+                RuleH ruleH5 = new RuleH("ruleH5", "Sorry. No allowed Pets.");
+                RuleH ruleH6 = new RuleH("ruleH6", "Must be wash the stuff after using.");
                 ruleHRepository.save(ruleH1);
                 ruleHRepository.save(ruleH2);
                 ruleHRepository.save(ruleH3);
@@ -98,18 +98,18 @@ public class DataInitializer {
                 ruleHRepository.save(ruleH6);
             }
             if(offerHRepository.count() == 0) {
-                OfferH offerH1 = new OfferH("", "Wi-Fi");
-                OfferH offerH2 = new OfferH("", "Free parking");
-                OfferH offerH3 = new OfferH("", "swimming pool");
-                OfferH offerH4 = new OfferH("", "TV");
-                OfferH offerH5 = new OfferH("", "smoke alarm");
-                OfferH offerH6 = new OfferH("", "Refrigerator");
-                OfferH offerH7 = new OfferH("", "Balcony");
-                OfferH offerH8 = new OfferH("", "Air conditioner");
-                OfferH offerH9 = new OfferH("", "Washing machine");
-                OfferH offerH10 = new OfferH("", "Gym");
-                OfferH offerH11 = new OfferH("", "Heater");
-                OfferH offerH12 = new OfferH("", "dryer");
+                OfferH offerH1 = new OfferH("offerH1", "Wi-Fi");
+                OfferH offerH2 = new OfferH("offerH2", "Free parking");
+                OfferH offerH3 = new OfferH("offerH3", "swimming pool");
+                OfferH offerH4 = new OfferH("offerH4", "TV");
+                OfferH offerH5 = new OfferH("offerH5", "smoke alarm");
+                OfferH offerH6 = new OfferH("offerH6", "Refrigerator");
+                OfferH offerH7 = new OfferH("offerH7", "Balcony");
+                OfferH offerH8 = new OfferH("offerH8", "Air conditioner");
+                OfferH offerH9 = new OfferH("offerH9", "Washing machine");
+                OfferH offerH10 = new OfferH("offerH10", "Gym");
+                OfferH offerH11 = new OfferH("offerH11", "Heater");
+                OfferH offerH12 = new OfferH("offerH12", "dryer");
                 offerHRepository.save(offerH1);
                 offerHRepository.save(offerH2);
                 offerHRepository.save(offerH3);
@@ -125,16 +125,16 @@ public class DataInitializer {
 
             }
             if (offerRRepository.count() == 0) {
-                OfferR offerR1 = new OfferR("", "Bed");
-                OfferR offerR2 = new OfferR("", "Closet");
-                OfferR offerR3 = new OfferR("", "Desk");
-                OfferR offerR4 = new OfferR("", "Chair");
-                OfferR offerR5 = new OfferR("", "Window");
-                OfferR offerR6 = new OfferR("", "Lamp");
-                OfferR offerR7 = new OfferR("", "Air conditioner");
-                OfferR offerR8 = new OfferR("", "Washroom");
-                OfferR offerR9 = new OfferR("", "Quilt");
-                OfferR offerR10 = new OfferR("", "Pillow");
+                OfferR offerR1 = new OfferR("offerR1", "Bed");
+                OfferR offerR2 = new OfferR("offerR2", "Closet");
+                OfferR offerR3 = new OfferR("offerR3", "Desk");
+                OfferR offerR4 = new OfferR("offerR4", "Chair");
+                OfferR offerR5 = new OfferR("offerR5", "Window");
+                OfferR offerR6 = new OfferR("offerR6", "Lamp");
+                OfferR offerR7 = new OfferR("offerR7", "Air conditioner");
+                OfferR offerR8 = new OfferR("offerR8", "Washroom");
+                OfferR offerR9 = new OfferR("offerR9", "Quilt");
+                OfferR offerR10 = new OfferR("offerR10", "Pillow");
                 offerRRepository.save(offerR1);
                 offerRRepository.save(offerR2);
                 offerRRepository.save(offerR3);
