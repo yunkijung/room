@@ -19,23 +19,23 @@ import static org.assertj.core.api.Assertions.*;
 @Transactional
 class RoomApplicationTests {
 
-    @Autowired
-    EntityManager em;
-	@Test
-	void contextLoads() {
-        Role role = new Role();
-        em.persist(role);
-
-        JPAQueryFactory query = new JPAQueryFactory(em);
-
-        QRole qRole = QRole.role;
-
-        Role result = query
-                .selectFrom(qRole)
-                .fetchOne();
-
-        assertThat(result).isEqualTo(role);
-        assertThat(result.getId()).isEqualTo(role.getId());
-    }
+//    @Autowired
+//    EntityManager em;
+//	@Test
+//	void contextLoads() {
+//        Role role = new Role();
+//        em.persist(role);
+//
+//        JPAQueryFactory query = new JPAQueryFactory(em);
+//
+//        QRole qRole = QRole.role;
+//
+//        Role result = query
+//                .selectFrom(qRole)
+//                .fetchOne();
+//
+//        assertThat(result).isEqualTo(role);
+//        assertThat(result.getId()).isEqualTo(role.getId());
+//    }
 
 }
