@@ -3,6 +3,7 @@ package com.yun.room.config;
 
 import com.yun.room.domain.gender.entity.Gender;
 import com.yun.room.domain.gender.repository.GenderRepository;
+import com.yun.room.domain.house.repository.HouseRepository;
 import com.yun.room.domain.nationality.entity.Nationality;
 import com.yun.room.domain.nationality.repository.NationalityRepository;
 import com.yun.room.domain.occupation.entity.Occupation;
@@ -37,6 +38,7 @@ public class DataInitializer {
             , RuleHRepository ruleHRepository
             , OfferHRepository offerHRepository
             , OfferRRepository offerRRepository
+            , HouseRepository houseRepository
     ) {
         return args -> {
             if (roleRepository.count() == 0) { // role 테이블에 데이터가 없을 경우
@@ -146,6 +148,7 @@ public class DataInitializer {
                 offerRRepository.save(offerR9);
                 offerRRepository.save(offerR10);
             }
+
         };
     }
 }

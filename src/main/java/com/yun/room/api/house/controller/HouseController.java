@@ -8,6 +8,7 @@ import com.yun.room.api.house.dto.get_all_houses.*;
 import com.yun.room.api.external_service.GeocodingAPIService;
 import com.yun.room.api.house.dto.get_options.OfferHDto;
 import com.yun.room.api.house.dto.get_options.RuleHDto;
+import com.yun.room.api.house.dto.search_houses.SearchHousesDto;
 import com.yun.room.api.room.dto.get_options.OfferRDto;
 import com.yun.room.domain.common.embedded.Address;
 import com.yun.room.domain.component_service.house.service.HouseComponentService;
@@ -26,7 +27,11 @@ import com.yun.room.security.jwt.util.IfLogin;
 import com.yun.room.security.jwt.util.LoginUserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.geo.Point;
+
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.PrecisionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -78,7 +83,9 @@ public class HouseController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
         log.info("location = @@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        Point point = null;
+
+        GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
+
         try {
             LatLng location = geocodingApiService.getLatLngFromAddress(
                     createHouseDto.getStreet() + ", "
@@ -88,30 +95,30 @@ public class HouseController {
             log.info("location = {}, {}", location.lat, location.lng);
             double latitude = location.lat;
             double longitude = location.lng;
-            point = new Point(latitude, longitude);
-            // Use latitude and longitude as needed.
-        } catch (Exception e) {
-            // Handle the exception
-            log.error("GeocodingAPI Error : ", e);
-        }
+            Point point = geometryFactory.createPoint(new Coordinate(longitude, latitude));
 
-        Address address = new Address(
-                createHouseDto.getStreet()
-                , createHouseDto.getCity()
-                , createHouseDto.getCountry()
-                , createHouseDto.getPostalCode()
-        );
-        House house = new House(
-                createHouseDto.getTitle()
-                , createHouseDto.getDescription()
-                , address
-                , point
-                , createHouseDto.getRoomCount()
-                , createHouseDto.getWashroomCount()
-                , createHouseDto.getToiletCount()
-                , createHouseDto.getKitchenCount()
-                , createHouseDto.getLivingRoomCount()
-        );
+            Address address = new Address(
+                    createHouseDto.getStreet()
+                    , createHouseDto.getCity()
+                    , createHouseDto.getCountry()
+                    , createHouseDto.getPostalCode()
+            );
+            House house = new House(
+                    createHouseDto.getTitle()
+                    , createHouseDto.getDescription()
+                    , address
+                    , point
+                    , createHouseDto.getRoomCount()
+                    , createHouseDto.getWashroomCount()
+                    , createHouseDto.getToiletCount()
+                    , createHouseDto.getKitchenCount()
+                    , createHouseDto.getLivingRoomCount()
+            );
+
+            // Use latitude and longitude as needed.
+
+
+
 
         List<Image> images = new ArrayList<>();
         try{
@@ -129,7 +136,14 @@ public class HouseController {
         HashMap<String, Object> resultMap = new HashMap<>();
         resultMap.put("houseId", savedHouse.getId());
 
+
         return new ResponseEntity(resultMap, HttpStatus.OK);
+
+        } catch (Exception e) {
+            // Handle the exception
+            log.error("GeocodingAPI Error : ", e);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping
@@ -315,6 +329,89 @@ public class HouseController {
         resultMap.put("offers", offerHDtos);
         resultMap.put("rules", ruleHDtos);
 
+        return new ResponseEntity(resultMap, HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity searchHouses(SearchHousesDto searchHousesDto) {
+        log.info("latitude: {}", searchHousesDto.getLat());
+        List<House> houses = houseService.searchByDistance(searchHousesDto.getLng(), searchHousesDto.getLat(), searchHousesDto.getDistance());
+        List<HouseResponseDto> responseDtos = new ArrayList<>();
+
+        //House data transfer
+        for (House house : houses) {
+            List<Image> images = house.getImages();
+            List<ImageDto> imageDtos = new ArrayList<>();
+            for (Image image : images) {
+                imageDtos.add(new ImageDto(image));
+            }
+
+            List<HouseOfferH> houseOfferHList = house.getHouseOfferHList();
+            List<OfferHDto> offerHDtos = new ArrayList<>();
+            for (HouseOfferH houseOfferH : houseOfferHList) {
+                offerHDtos.add(new OfferHDto(houseOfferH.getOfferH()));
+            }
+
+            List<HouseRuleH> houseRuleHList = house.getHouseRuleHList();
+            List<RuleHDto> ruleHDtos = new ArrayList<>();
+            for (HouseRuleH houseRuleH : houseRuleHList) {
+                ruleHDtos.add(new RuleHDto(houseRuleH.getRuleH()));
+            }
+
+            //Room data transfer
+            List<Room> rooms = house.getRooms();
+            List<RoomDto> roomDtos = new ArrayList<>();
+            for (Room room : rooms) {
+                List<Image> roomImages = room.getImages();
+                List<ImageDto> roomImageDtos = new ArrayList<>();
+                for (Image roomImage : roomImages) {
+                    roomImageDtos.add(new ImageDto(roomImage));
+                }
+
+                List<RoomOfferR> roomOfferRList = room.getRoomOfferRList();
+                List<OfferRDto> roomOfferRDtos = new ArrayList<>();
+                for (RoomOfferR roomOfferR : roomOfferRList) {
+                    roomOfferRDtos.add(new OfferRDto(roomOfferR.getOfferR()));
+                }
+
+                roomDtos.add(new RoomDto(
+                        room.getId()
+                        , room.getTitle()
+                        , room.getDescription()
+                        , room.getPrice()
+                        , room.getMinStay()
+                        , room.getIsOn()
+                        , room.getAvailableDate()
+                        , roomImageDtos
+                        , roomOfferRDtos
+                ));
+
+            }
+
+
+            responseDtos.add(new HouseResponseDto(
+                    house.getId()
+                    , house.getTitle()
+                    , house.getDescription()
+                    , house.getAddress().getStreet()
+                    , house.getAddress().getCity()
+                    , house.getAddress().getCountry()
+                    , house.getAddress().getPostalCode()
+                    , house.getRoomCount()
+                    , house.getWashroomCount()
+                    , house.getToiletCount()
+                    , house.getKitchenCount()
+                    , house.getLivingRoomCount()
+                    , house.getPoint().getX()
+                    , house.getPoint().getY()
+                    , imageDtos
+                    , offerHDtos
+                    , ruleHDtos
+                    , roomDtos
+            ));
+        }
+        HashMap<String, Object> resultMap = new HashMap<>();
+        resultMap.put("houseList", responseDtos);
         return new ResponseEntity(resultMap, HttpStatus.OK);
     }
 }

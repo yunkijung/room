@@ -9,7 +9,9 @@ import com.yun.room.domain.member.entity.Member;
 import com.yun.room.domain.room.entity.Room;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.geo.Point;
+import org.hibernate.annotations.Type;
+import org.locationtech.jts.geom.Point;
+
 
 import javax.persistence.*;
 import java.util.List;
@@ -30,6 +32,7 @@ public class House extends AuditorEntity {
     @Embedded
     private Address address;
 
+    @Column(columnDefinition = "POINT SRID 4326")
     private Point point;
 
     private Integer roomCount;

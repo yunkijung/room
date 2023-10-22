@@ -34,4 +34,18 @@ public class HouseService {
     public List<House> findAllByHost(Long id) {
         return houseRepository.findByHost_Id(id);
     }
+
+    @Transactional
+    public List<House> search(Double lng, Double lat , Double distance) {
+        log.info("lng : {}", lng);
+        log.info("lat : {}", lat);
+        log.info("distance : {}", distance);
+
+        return houseRepository.search(lng, lat, distance);
+    }
+
+    @Transactional
+    public List<House> searchByDistance(Double lng, Double lat, Double distance) {
+        return houseRepository.searchByDistance(lng, lat, distance);
+    }
 }

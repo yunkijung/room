@@ -27,8 +27,8 @@ public class HouseDto {
     private int kitchenCount;
     private int livingRoomCount;
 
-    private Double latitude;
     private Double longitude;
+    private Double latitude;
     private List<ImageDto> images;
     private List<OfferHDto> houseOffers;
     private List<RuleHDto> houseRules;
