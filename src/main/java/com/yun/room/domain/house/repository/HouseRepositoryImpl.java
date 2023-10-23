@@ -40,12 +40,22 @@ public class HouseRepositoryImpl implements HouseRepositoryCustom {
         StringTemplate template = Expressions.stringTemplate(
                 "ST_Distance_Sphere(ST_GeomFromText(house.point), ST_GeomFromText(CONCAT('POINT(', {0}, ' ', {1}, ')'), 4326))", lng, lat
         );
+//
 //        return queryFactory
-//                .selectFrom(house)
+//                .select(house)
+//                .from(house)
 //                .where(
-//                        template.loe(distance).
+//                        Expressions.stringTemplate(
+//                                "ST_Distance_Sphere(?0, ?1) <= ?2"
+//                                , house.point
+//                                , Expressions.stringTemplate("ST_GeomFromText(?0, 4326)"
+//                                , Expressions.stringTemplate("POINT(?0, ?1)", lat, lng)
+//                                        )
+//                                , distance
+//                        ).equalsIgnoreCase("true")
 //                )
 //                .fetch();
+
 
 //        return queryFactory
 //                .select(house)
@@ -84,7 +94,9 @@ public class HouseRepositoryImpl implements HouseRepositoryCustom {
 //        log.info("Test@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ {}", queryString);
         return queryFactory
                 .selectFrom(house)
-                .where()
+                .where(
+
+                )
                 .fetch();
 
     }

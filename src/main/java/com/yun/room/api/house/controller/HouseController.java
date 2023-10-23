@@ -32,6 +32,8 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.PrecisionModel;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -335,7 +337,10 @@ public class HouseController {
     @GetMapping("/search")
     public ResponseEntity searchHouses(SearchHousesDto searchHousesDto) {
         log.info("latitude: {}", searchHousesDto.getLat());
-        List<House> houses = houseService.searchByDistance(searchHousesDto.getLng(), searchHousesDto.getLat(), searchHousesDto.getDistance());
+        Page<House> page = houseService.searchByDistance(searchHousesDto.getLng(), searchHousesDto.getLat(), searchHousesDto.getDistance(), PageRequest.of(searchHousesDto.getPageNumber(), searchHousesDto.getPageSize()));
+        long totalCount = page.getTotalElements();
+        long totalPage = page.getTotalPages();
+        List<House> houses = page.getContent();
         List<HouseResponseDto> responseDtos = new ArrayList<>();
 
         //House data transfer
@@ -412,6 +417,8 @@ public class HouseController {
         }
         HashMap<String, Object> resultMap = new HashMap<>();
         resultMap.put("houseList", responseDtos);
+        resultMap.put("totalCount", totalCount);
+        resultMap.put("totalPage", totalPage);
         return new ResponseEntity(resultMap, HttpStatus.OK);
     }
 }

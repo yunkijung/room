@@ -7,4 +7,6 @@ public class SearchHousesDto {
     private Double lng;
     private Double lat;
     private Double distance;
+    private Integer pageNumber;
+    private Integer pageSize;
 }

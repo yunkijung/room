@@ -5,6 +5,9 @@ import com.yun.room.domain.house.repository.HouseRepository;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,7 +48,8 @@ public class HouseService {
     }
 
     @Transactional
-    public List<House> searchByDistance(Double lng, Double lat, Double distance) {
-        return houseRepository.searchByDistance(lng, lat, distance);
+    public Page<House> searchByDistance(Double lng, Double lat, Double distance, Pageable pageable) {
+
+        return houseRepository.searchByDistance(lng, lat, distance, pageable);
     }
 }

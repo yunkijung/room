@@ -1,6 +1,8 @@
 package com.yun.room.domain.house.repository;
 
 import com.yun.room.domain.house.entity.House;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
@@ -14,6 +16,19 @@ public interface HouseRepository extends JpaRepository<House, Long>, HouseReposi
     List<House> findByHost_Id(Long id);
 
     @Query(value = "SELECT * FROM house h WHERE ST_Distance_Sphere(point, ST_GeomFromText(CONCAT('POINT(', :lat, ' ', :lng, ')'), 4326)) <= :distance", nativeQuery = true)
-    List<House> searchByDistance(@Param("lng") double lng, @Param("lat") double lat, @Param("distance") double distance);
+    Page<House> searchByDistance(@Param("lng") double lng, @Param("lat") double lat, @Param("distance") double distance, Pageable pageable);
+
+//    @Query(value = "SELECT * FROM house h " +
+//            "WHERE ST_Distance_Sphere(point, ST_GeomFromText(CONCAT('POINT(', :lat, ' ', :lng, ')'), 4326)) <= :distance " +
+//            "AND (:availableDate IS NULL OR h.available_date = :availableDate) " +
+//            "AND (:gender IS NULL OR h.gender = :gender)",
+//            nativeQuery = true)
+//    Page<House> searchByDistanceWithOptionalFilters(
+//            @Param("lng") double lng,
+//            @Param("lat") double lat,
+//            @Param("distance") double distance,
+//            @Param("availableDate") LocalDate availableDate,
+//            @Param("gender") String gender,
+//            Pageable pageable);
 
 }
