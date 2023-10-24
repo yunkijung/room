@@ -3,6 +3,7 @@ package com.yun.room.domain.member.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yun.room.domain.common.auditor.AuditorEntity;
 import com.yun.room.domain.house.entity.House;
+import com.yun.room.domain.member_house_like.entity.MemberHouseLike;
 import com.yun.room.domain.member_info.entity.MemberInfo;
 import com.yun.room.domain.role.entity.Role;
 import lombok.AllArgsConstructor;
@@ -55,6 +56,9 @@ public class Member extends AuditorEntity {
     @OneToMany(mappedBy = "host")
     private List<House> houses;
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval=true)
+    private List<MemberHouseLike> likeHouses;
+
     public Member(String email, String password, String name, Boolean isLocked) {
         this.email = email;
         this.password = password;
@@ -79,6 +83,10 @@ public class Member extends AuditorEntity {
     public void updateMemberInfo(MemberInfo memberInfo) {
         this.memberInfo = memberInfo;
         memberInfo.updateMember(this);
+    }
+
+    public void updateLikeHouses(List<MemberHouseLike> likeHouses) {
+        this.likeHouses = likeHouses;
     }
 
 }
