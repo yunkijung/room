@@ -1,10 +1,9 @@
-package com.yun.room.api.house.dto.get_all_houses;
+package com.yun.room.api.house.dto.search_houses;
 
 import com.yun.room.api.room.dto.get_options.OfferRDto;
 import com.yun.room.domain.image.entity.Image;
 import com.yun.room.domain.room.entity.Room;
 import com.yun.room.domain.room_offer_r.entity.RoomOfferR;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -17,6 +16,7 @@ public class RoomDto {
     private Long roomId;
     private String title;
     private String description;
+    private Integer floor;
     private int price;
     private int minStay;
     private Boolean isOn;
@@ -40,6 +40,7 @@ public class RoomDto {
         this.roomId = room.getId();
         this.title = room.getTitle();
         this.description = room.getDescription();
+        this.floor = room.getFloor();
         this.price = room.getPrice();
         this.minStay = room.getMinStay();
         this.isOn = room.getIsOn();

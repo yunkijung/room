@@ -9,4 +9,5 @@ public class SearchHousesDto {
     private Double distance;
     private Integer pageNumber;
     private Integer pageSize;
+    private String type;
 }

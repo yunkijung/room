@@ -1,7 +1,8 @@
 package com.yun.room.api.room.dto.get_room;
 
-import com.yun.room.api.house.dto.get_all_houses.ImageDto;
 
+
+import com.yun.room.api.house.dto.search_houses.ImageDto;
 import com.yun.room.api.room.dto.get_options.OfferRDto;
 import com.yun.room.domain.house.entity.House;
 import com.yun.room.domain.image.entity.Image;
@@ -20,6 +21,7 @@ public class RoomResponseDto {
     private Long roomId;
     private String title;
     private String description;
+    private Integer floor;
     private int price;
     private int minStay;
     private Boolean isOn;
@@ -48,6 +50,7 @@ public class RoomResponseDto {
         this.roomId = room.getId();
         this.title =  room.getTitle();
         this.description =  room.getDescription();
+        this.floor = room.getFloor();
         this.price =  room.getPrice();
         this.minStay =  room.getMinStay();
         this.isOn =  room.getIsOn();

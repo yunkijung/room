@@ -1,8 +1,9 @@
 package com.yun.room.api.member.controller;
 
-import com.yun.room.api.house.dto.get_all_houses.*;
+
 import com.yun.room.api.house.dto.get_options.OfferHDto;
 import com.yun.room.api.house.dto.get_options.RuleHDto;
+import com.yun.room.api.house.dto.search_houses.HouseResponseDto;
 import com.yun.room.api.member.dto.like_house.LikeHouseDto;
 import com.yun.room.api.member.dto.login.MemberLoginDto;
 import com.yun.room.api.member.dto.login.MemberLoginResponseDto;

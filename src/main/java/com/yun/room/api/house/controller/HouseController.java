@@ -4,10 +4,11 @@ import com.google.maps.model.LatLng;
 import com.yun.room.api.external_service.S3UploadService;
 
 import com.yun.room.api.house.dto.create_house.CreateHouseDto;
-import com.yun.room.api.house.dto.get_all_houses.*;
+
 import com.yun.room.api.external_service.GeocodingAPIService;
 import com.yun.room.api.house.dto.get_options.OfferHDto;
 import com.yun.room.api.house.dto.get_options.RuleHDto;
+import com.yun.room.api.house.dto.search_houses.HouseResponseDto;
 import com.yun.room.api.house.dto.search_houses.SearchHousesDto;
 import com.yun.room.api.room.dto.get_options.OfferRDto;
 import com.yun.room.domain.common.embedded.Address;
@@ -93,6 +94,7 @@ public class HouseController {
             House house = new House(
                     createHouseDto.getTitle()
                     , createHouseDto.getDescription()
+                    , createHouseDto.getType()
                     , address
                     , point
                     , createHouseDto.getRoomCount()
@@ -174,7 +176,7 @@ public class HouseController {
     @GetMapping("/search")
     public ResponseEntity searchHouses(SearchHousesDto searchHousesDto) {
         log.info("latitude: {}", searchHousesDto.getLat());
-        Page<House> page = houseService.searchByDistance(searchHousesDto.getLng(), searchHousesDto.getLat(), searchHousesDto.getDistance(), PageRequest.of(searchHousesDto.getPageNumber(), searchHousesDto.getPageSize()));
+        Page<House> page = houseService.searchByDistance(searchHousesDto.getLng(), searchHousesDto.getLat(), searchHousesDto.getDistance(), searchHousesDto.getType(), PageRequest.of(searchHousesDto.getPageNumber(), searchHousesDto.getPageSize()));
         long totalCount = page.getTotalElements();
         long totalPage = page.getTotalPages();
         List<House> houses = page.getContent();

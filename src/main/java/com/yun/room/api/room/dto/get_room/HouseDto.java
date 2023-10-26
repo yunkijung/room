@@ -1,11 +1,11 @@
 package com.yun.room.api.room.dto.get_room;
 
-import com.yun.room.api.house.dto.get_all_houses.ImageDto;
 
-import com.yun.room.api.house.dto.get_all_houses.RoomDto;
 
 import com.yun.room.api.house.dto.get_options.OfferHDto;
 import com.yun.room.api.house.dto.get_options.RuleHDto;
+import com.yun.room.api.house.dto.search_houses.ImageDto;
+import com.yun.room.api.house.dto.search_houses.RoomDto;
 import com.yun.room.domain.house.entity.House;
 import com.yun.room.domain.house_offer_h.entity.HouseOfferH;
 import com.yun.room.domain.house_rule_h.entity.HouseRuleH;
@@ -22,6 +22,7 @@ public class HouseDto {
     private Long houseId;
     private String title;
     private String description;
+    private String type;
     private String street;
     private String city;
     private String country;
@@ -70,6 +71,7 @@ public class HouseDto {
         this.houseId = house.getId();
         this.title = house.getTitle();
         this.description = house.getDescription();
+        this.type = house.getType();
         this.street = house.getAddress().getStreet();
         this.city = house.getAddress().getCity();
         this.country = house.getAddress().getCountry();

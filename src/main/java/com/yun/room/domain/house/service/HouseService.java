@@ -48,8 +48,8 @@ public class HouseService {
     }
 
     @Transactional
-    public Page<House> searchByDistance(Double lng, Double lat, Double distance, Pageable pageable) {
+    public Page<House> searchByDistance(Double lng, Double lat, Double distance, String type, Pageable pageable) {
 
-        return houseRepository.searchByDistance(lng, lat, distance, pageable);
+        return houseRepository.searchByDistance(lng, lat, distance, type, pageable);
     }
 }

@@ -15,8 +15,21 @@ public interface HouseRepository extends JpaRepository<House, Long>, HouseReposi
 
     List<House> findByHost_Id(Long id);
 
-    @Query(value = "SELECT * FROM house h WHERE ST_Distance_Sphere(point, ST_GeomFromText(CONCAT('POINT(', :lat, ' ', :lng, ')'), 4326)) <= :distance", nativeQuery = true)
-    Page<House> searchByDistance(@Param("lng") double lng, @Param("lat") double lat, @Param("distance") double distance, Pageable pageable);
+    @Query(value = "SELECT * FROM house h " +
+            "WHERE " +
+            "  ST_Distance_Sphere(point, ST_GeomFromText(CONCAT('POINT(', :lat, ' ', :lng, ')'), 4326)) <= :distance " +
+            "  AND (:type IS NULL OR :type = '' OR h.type = :type)",
+            nativeQuery = true)
+    Page<House> searchByDistance(
+            @Param("lng") double lng,
+            @Param("lat") double lat,
+            @Param("distance") double distance,
+            @Param("type") String type,
+            Pageable pageable
+    );
+
+//    @Query(value = "SELECT * FROM house h WHERE ST_Distance_Sphere(point, ST_GeomFromText(CONCAT('POINT(', :lat, ' ', :lng, ')'), 4326)) <= :distance", nativeQuery = true)
+//    Page<House> searchByDistance(@Param("lng") double lng, @Param("lat") double lat, @Param("distance") double distance, @Param("type") String type , Pageable pageable);
 
 //    @Query(value = "SELECT * FROM house h " +
 //            "WHERE ST_Distance_Sphere(point, ST_GeomFromText(CONCAT('POINT(', :lat, ' ', :lng, ')'), 4326)) <= :distance " +

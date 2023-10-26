@@ -2,9 +2,7 @@ package com.yun.room.api.room.controller;
 
 import com.yun.room.api.external_service.S3UploadService;
 
-import com.yun.room.api.house.dto.get_all_houses.ImageDto;
 
-import com.yun.room.api.house.dto.get_all_houses.RoomDto;
 
 import com.yun.room.api.house.dto.get_options.OfferHDto;
 import com.yun.room.api.house.dto.get_options.RuleHDto;
@@ -68,6 +66,7 @@ public class RoomController {
         Room room = new Room(
                 createRoomDto.getTitle()
                 , createRoomDto.getDescription()
+                , createRoomDto.getFloor()
                 , createRoomDto.getPrice()
                 , createRoomDto.getMinStay()
                 , createRoomDto.getIsOn()

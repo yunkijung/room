@@ -28,6 +28,7 @@ public class House extends AuditorEntity {
 
     private String title;
     private String description;
+    private String type;
 
     @Embedded
     private Address address;
@@ -60,6 +61,7 @@ public class House extends AuditorEntity {
     public House(
             String title
             , String description
+            , String type
             , Address address
             , Point point
             , Integer roomCount
@@ -69,6 +71,7 @@ public class House extends AuditorEntity {
             , Integer livingRoomCount) {
         this.title = title;
         this.description = description;
+        this.type = type;
         this.address = address;
         this.point = point;
         this.roomCount = roomCount;

@@ -15,6 +15,8 @@ public class CreateHouseDto {
     @NotBlank
     private String description;
     @NotBlank
+    private String type;
+    @NotBlank
     private String street;
     @NotBlank
     private String city;

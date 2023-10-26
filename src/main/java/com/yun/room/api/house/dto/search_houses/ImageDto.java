@@ -1,7 +1,6 @@
-package com.yun.room.api.house.dto.get_all_houses;
+package com.yun.room.api.house.dto.search_houses;
 
 import com.yun.room.domain.image.entity.Image;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data

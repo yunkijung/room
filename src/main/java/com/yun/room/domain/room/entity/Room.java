@@ -23,6 +23,7 @@ public class Room extends AuditorEntity {
 
     private String title;
     private String description;
+    private Integer floor;
     private Integer price;
     private Integer minStay;
     private Boolean isOn;
@@ -38,9 +39,10 @@ public class Room extends AuditorEntity {
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Image> images;
 
-    public Room(String title, String description, Integer price, Integer minStay, Boolean isOn, LocalDate availableDate) {
+    public Room(String title, String description, Integer floor, Integer price, Integer minStay, Boolean isOn, LocalDate availableDate) {
         this.title = title;
         this.description = description;
+        this.floor = floor;
         this.price = price;
         this.minStay = minStay;
         this.isOn = isOn;

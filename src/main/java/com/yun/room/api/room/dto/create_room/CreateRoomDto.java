@@ -9,6 +9,7 @@ import java.util.List;
 public class CreateRoomDto {
     private String title;
     private String description;
+    private Integer floor;
     private int price;
     private int minStay;
     private Boolean isOn;
