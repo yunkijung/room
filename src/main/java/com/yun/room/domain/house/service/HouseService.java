@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 @Slf4j
 @Service
@@ -48,8 +49,8 @@ public class HouseService {
     }
 
     @Transactional
-    public Page<House> searchByDistance(Double lng, Double lat, Double distance, String type, Pageable pageable) {
+    public Page<House> searchByDistance(Double lng, Double lat, Double distance, String type, Integer minPrice, Integer maxPrice, Boolean hasBasement, LocalDate availableDate, Pageable pageable) {
 
-        return houseRepository.searchByDistance(lng, lat, distance, type, pageable);
+        return houseRepository.searchByDistance(lng, lat, distance, type, minPrice, maxPrice, hasBasement, availableDate, pageable);
     }
 }

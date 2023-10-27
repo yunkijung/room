@@ -44,6 +44,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -176,7 +177,9 @@ public class HouseController {
     @GetMapping("/search")
     public ResponseEntity searchHouses(SearchHousesDto searchHousesDto) {
         log.info("latitude: {}", searchHousesDto.getLat());
-        Page<House> page = houseService.searchByDistance(searchHousesDto.getLng(), searchHousesDto.getLat(), searchHousesDto.getDistance(), searchHousesDto.getType(), PageRequest.of(searchHousesDto.getPageNumber(), searchHousesDto.getPageSize()));
+        log.info("availableDate: {}", searchHousesDto.getAvailableDate());
+
+        Page<House> page = houseService.searchByDistance(searchHousesDto.getLng(), searchHousesDto.getLat(), searchHousesDto.getDistance(), searchHousesDto.getType(), searchHousesDto.getMinPrice(), searchHousesDto.getMaxPrice(), searchHousesDto.getHasBasement(), searchHousesDto.getAvailableDate(), PageRequest.of(searchHousesDto.getPageNumber(), searchHousesDto.getPageSize()));
         long totalCount = page.getTotalElements();
         long totalPage = page.getTotalPages();
         List<House> houses = page.getContent();
