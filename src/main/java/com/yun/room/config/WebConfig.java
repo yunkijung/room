@@ -20,7 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000", "http://localhost", "https://localhost:443", "http://54.162.37.145:3000", "http://54.162.37.145", "https://54.162.37.145:443", "https://loglrs.com:443", "http://loglrs.com", "http://loglrs.com:3000", "https://d1hvanlm25mjjb.cloudfront.net:443", "http://d1hvanlm25mjjb.cloudfront.net", "http://d1hvanlm25mjjb.cloudfront.net:3000")
+                .allowedOrigins("http://localhost:3000", "http://localhost", "https://localhost:443", "http://54.162.37.145:3000", "http://54.162.37.145", "https://54.162.37.145:443", "https://loglrs.com:443", "https://loglrs.com", "http://loglrs.com", "http://loglrs.com:3000", "https://d1hvanlm25mjjb.cloudfront.net:443", "http://d1hvanlm25mjjb.cloudfront.net", "http://d1hvanlm25mjjb.cloudfront.net:3000")
 //                .allowedOrigins("https://www.fakeshop.com")
                 .allowedMethods("GET", "POST", "PATCH", "PUT", "OPTIONS", "DELETE")
                 .allowCredentials(true);

@@ -78,7 +78,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true); // 이거 빼면 된다s
         // https://gareen.tistory.com/66
-        config.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost", "https://localhost:443", "http://54.162.37.145:3000", "http://54.162.37.145", "https://54.162.37.145:443", "https://loglrs.com:443", "http://loglrs.com", "http://loglrs.com:3000", "https://d1hvanlm25mjjb.cloudfront.net:443", "http://d1hvanlm25mjjb.cloudfront.net", "http://d1hvanlm25mjjb.cloudfront.net:3000"));
+        config.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost", "https://localhost:443", "http://54.162.37.145:3000", "http://54.162.37.145", "https://54.162.37.145:443", "https://loglrs.com:443", "https://loglrs.com", "http://loglrs.com", "http://loglrs.com:3000", "https://d1hvanlm25mjjb.cloudfront.net:443", "http://d1hvanlm25mjjb.cloudfront.net", "http://d1hvanlm25mjjb.cloudfront.net:3000"));
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
         config.setAllowedMethods(List.of("GET","POST","DELETE","PATCH","OPTIONS","PUT"));
