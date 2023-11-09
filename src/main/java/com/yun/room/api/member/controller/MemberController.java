@@ -4,6 +4,7 @@ package com.yun.room.api.member.controller;
 import com.yun.room.api.house.dto.get_options.OfferHDto;
 import com.yun.room.api.house.dto.get_options.RuleHDto;
 import com.yun.room.api.house.dto.search_houses.HouseResponseDto;
+import com.yun.room.api.member.dto.inspection_req.MemberInspectionReqResponseDto;
 import com.yun.room.api.member.dto.like_house.LikeHouseDto;
 import com.yun.room.api.member.dto.login.MemberLoginDto;
 import com.yun.room.api.member.dto.login.MemberLoginResponseDto;
@@ -18,6 +19,8 @@ import com.yun.room.domain.house.service.HouseService;
 import com.yun.room.domain.house_offer_h.entity.HouseOfferH;
 import com.yun.room.domain.house_rule_h.entity.HouseRuleH;
 import com.yun.room.domain.image.entity.Image;
+import com.yun.room.domain.inspection_req.entity.InspectionReq;
+import com.yun.room.domain.inspection_req.service.InspectionReqService;
 import com.yun.room.domain.member.entity.Member;
 import com.yun.room.domain.member.service.MemberService;
 import com.yun.room.domain.member_info.entity.MemberInfo;
@@ -43,6 +46,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +66,7 @@ public class MemberController {
 
     private final MemberComponentService memberComponentService;
     private final HouseService houseService;
+    private final InspectionReqService inspectionReqService;
 
 
 //    public MemberController(JwtTokenizer jwtTokenizer, MemberService memberService, RefreshTokenService refreshTokenService, PasswordEncoder passwordEncoder) {
@@ -299,5 +304,21 @@ public class MemberController {
 
         return new ResponseEntity(resultMap, HttpStatus.OK);
 
+    }
+
+    @GetMapping("/inspection-req")
+    public ResponseEntity getMyInspectionReqs(@IfLogin LoginUserDto loginUserDto) {
+        Long memberId = loginUserDto.getMemberId();
+        List<InspectionReq> inspectionReqs = inspectionReqService.findByMemberId(memberId);
+
+        List<MemberInspectionReqResponseDto> inspectionReqResponseDtos = new ArrayList<>();
+
+        for (InspectionReq inspectionReq : inspectionReqs) {
+            inspectionReqResponseDtos.add(new MemberInspectionReqResponseDto(inspectionReq));
+        }
+        HashMap<String, Object> resultMap = new HashMap<>();
+        resultMap.put("inspectionReqList", inspectionReqResponseDtos);
+
+        return new ResponseEntity(resultMap, HttpStatus.OK);
     }
 }

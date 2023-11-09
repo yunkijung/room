@@ -4,6 +4,9 @@ package com.yun.room.config;
 import com.yun.room.domain.gender.entity.Gender;
 import com.yun.room.domain.gender.repository.GenderRepository;
 import com.yun.room.domain.house.repository.HouseRepository;
+import com.yun.room.domain.inspection_req.repository.InspectionReqRepository;
+import com.yun.room.domain.inspection_req_status.entity.InspectionReqStatus;
+import com.yun.room.domain.inspection_req_status.repository.InspectionReqStatusRepository;
 import com.yun.room.domain.nationality.entity.Nationality;
 import com.yun.room.domain.nationality.repository.NationalityRepository;
 import com.yun.room.domain.occupation.entity.Occupation;
@@ -38,7 +41,7 @@ public class DataInitializer {
             , RuleHRepository ruleHRepository
             , OfferHRepository offerHRepository
             , OfferRRepository offerRRepository
-            , HouseRepository houseRepository
+            , InspectionReqStatusRepository inspectionReqStatusRepository
     ) {
         return args -> {
             if (roleRepository.count() == 0) { // role 테이블에 데이터가 없을 경우
@@ -147,6 +150,17 @@ public class DataInitializer {
                 offerRRepository.save(offerR8);
                 offerRRepository.save(offerR9);
                 offerRRepository.save(offerR10);
+            }
+            if (inspectionReqStatusRepository.count() == 0) {
+                InspectionReqStatus status1 = new InspectionReqStatus("init");
+                InspectionReqStatus status2 = new InspectionReqStatus("rejected");
+                InspectionReqStatus status3 = new InspectionReqStatus("accepted");
+                InspectionReqStatus status4 = new InspectionReqStatus("confirm");
+
+                inspectionReqStatusRepository.save(status1);
+                inspectionReqStatusRepository.save(status2);
+                inspectionReqStatusRepository.save(status3);
+                inspectionReqStatusRepository.save(status4);
             }
 
         };

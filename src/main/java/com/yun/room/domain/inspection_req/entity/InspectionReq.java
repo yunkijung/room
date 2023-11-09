@@ -35,4 +35,12 @@ public class InspectionReq {
     @JoinColumn(name = "inspection_req_status_id")
     private InspectionReqStatus inspectionReqStatus;
 
+    public InspectionReq(LocalDateTime inspectionDateTime, LocalDate moveInDate, Boolean isCurrent, Room room, Member member, InspectionReqStatus inspectionReqStatus) {
+        this.inspectionDateTime = inspectionDateTime;
+        this.moveInDate = moveInDate;
+        this.isCurrent = isCurrent;
+        this.room = room;
+        this.member = member;
+        this.inspectionReqStatus = inspectionReqStatus;
+    }
 }

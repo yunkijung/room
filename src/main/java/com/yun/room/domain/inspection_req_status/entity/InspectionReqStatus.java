@@ -15,4 +15,8 @@ public class InspectionReqStatus {
     private Long id;
 
     private String type;
+
+    public InspectionReqStatus(String type) {
+        this.type = type;
+    }
 }
