@@ -30,4 +30,5 @@ public class InspectionReqController {
         inspectionReqComponentService.createInspectionReq(inspectionReqForm.getInspectionDateTime(), inspectionReqForm.getMoveInDate(), true, inspectionReqForm.getRoomId(), loginUserDto.getMemberId(), "Init");
         return new ResponseEntity(HttpStatus.OK);
     }
+
 }

@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface InspectionReqRepository extends JpaRepository<InspectionReq, Long> {
     List<InspectionReq> findByMember_id(Long id);
+
+    List<InspectionReq> findByRoom_id(Long id);
 }

@@ -21,4 +21,9 @@ public class InspectionReqService {
     public List<InspectionReq> findByMemberId(Long id) {
         return inspectionReqRepository.findByMember_id(id);
     }
+
+    @Transactional
+    public List<InspectionReq> findByRoomId(Long id) {
+        return inspectionReqRepository.findByRoom_id(id);
+    }
 }

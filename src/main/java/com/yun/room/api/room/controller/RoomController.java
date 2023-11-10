@@ -6,7 +6,9 @@ import com.yun.room.api.external_service.S3UploadService;
 
 import com.yun.room.api.house.dto.get_options.OfferHDto;
 import com.yun.room.api.house.dto.get_options.RuleHDto;
+import com.yun.room.api.member.dto.inspection_req.MemberInspectionReqResponseDto;
 import com.yun.room.api.room.dto.create_room.CreateRoomDto;
+import com.yun.room.api.room.dto.get_inspection_reqs.BusinessInspectionReqResponseDto;
 import com.yun.room.api.room.dto.get_options.OfferRDto;
 import com.yun.room.api.room.dto.get_room.HouseDto;
 import com.yun.room.api.room.dto.get_room.RoomResponseDto;
@@ -15,6 +17,9 @@ import com.yun.room.domain.house.entity.House;
 import com.yun.room.domain.house_offer_h.entity.HouseOfferH;
 import com.yun.room.domain.house_rule_h.entity.HouseRuleH;
 import com.yun.room.domain.image.entity.Image;
+import com.yun.room.domain.inspection_req.entity.InspectionReq;
+import com.yun.room.domain.inspection_req.repository.InspectionReqRepository;
+import com.yun.room.domain.inspection_req.service.InspectionReqService;
 import com.yun.room.domain.offer_r.entity.OfferR;
 import com.yun.room.domain.offer_r.service.OfferRService;
 import com.yun.room.domain.room.entity.Room;
@@ -48,6 +53,7 @@ public class RoomController {
     private final RoomComponentService roomComponentService;
     private final RoomService roomService;
     private final OfferRService offerRService;
+    private final InspectionReqService inspectionReqService;
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity createRoom(@IfLogin LoginUserDto loginUserDto, @RequestPart @Valid CreateRoomDto createRoomDto, @RequestPart @Valid Optional<List<MultipartFile>> files, BindingResult bindingResult) {
@@ -104,6 +110,22 @@ public class RoomController {
 
         HashMap<String, Object> resultMap = new HashMap<>();
         resultMap.put("offers", offerRDtos);
+        return new ResponseEntity(resultMap, HttpStatus.OK);
+    }
+
+    @GetMapping("/{roomId}/inspection-req")
+    public ResponseEntity getInspectionReqs(@PathVariable(name = "roomId") Long roomId) {
+
+        List<InspectionReq> inspectionReqs = inspectionReqService.findByRoomId(roomId);
+
+        List<BusinessInspectionReqResponseDto> inspectionReqResponseDtos = new ArrayList<>();
+
+        for (InspectionReq inspectionReq : inspectionReqs) {
+            inspectionReqResponseDtos.add(new BusinessInspectionReqResponseDto(inspectionReq));
+        }
+        HashMap<String, Object> resultMap = new HashMap<>();
+        resultMap.put("inspectionReqList", inspectionReqResponseDtos);
+
         return new ResponseEntity(resultMap, HttpStatus.OK);
     }
 }
