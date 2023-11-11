@@ -41,7 +41,6 @@ public class DataInitializer {
             , RuleHRepository ruleHRepository
             , OfferHRepository offerHRepository
             , OfferRRepository offerRRepository
-            , InspectionReqStatusRepository inspectionReqStatusRepository
     ) {
         return args -> {
             if (roleRepository.count() == 0) { // role 테이블에 데이터가 없을 경우
@@ -151,17 +150,7 @@ public class DataInitializer {
                 offerRRepository.save(offerR9);
                 offerRRepository.save(offerR10);
             }
-            if (inspectionReqStatusRepository.count() == 0) {
-                InspectionReqStatus status1 = new InspectionReqStatus("init");
-                InspectionReqStatus status2 = new InspectionReqStatus("rejected");
-                InspectionReqStatus status3 = new InspectionReqStatus("accepted");
-                InspectionReqStatus status4 = new InspectionReqStatus("confirm");
 
-                inspectionReqStatusRepository.save(status1);
-                inspectionReqStatusRepository.save(status2);
-                inspectionReqStatusRepository.save(status3);
-                inspectionReqStatusRepository.save(status4);
-            }
 
         };
     }

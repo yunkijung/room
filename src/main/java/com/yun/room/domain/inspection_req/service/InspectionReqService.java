@@ -18,6 +18,11 @@ public class InspectionReqService {
     }
 
     @Transactional
+    public InspectionReq findById(Long id) {
+        return inspectionReqRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Not exist."));
+    }
+
+    @Transactional
     public List<InspectionReq> findByMemberId(Long id) {
         return inspectionReqRepository.findByMember_id(id);
     }

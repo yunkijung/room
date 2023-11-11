@@ -11,12 +11,5 @@ import org.springframework.transaction.annotation.Transactional;
 public class InspectionReqStatusService {
     private final InspectionReqStatusRepository inspectionReqStatusRepository;
 
-    @Transactional
-    public InspectionReqStatus findById(Long id) {
-        return inspectionReqStatusRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("No Result."));
-    }
-    @Transactional
-    public InspectionReqStatus findByType(String type) {
-        return inspectionReqStatusRepository.findByType(type).orElseThrow(() -> new IllegalArgumentException("No Result."));
-    }
+
 }

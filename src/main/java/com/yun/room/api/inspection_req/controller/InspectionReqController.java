@@ -1,6 +1,8 @@
 package com.yun.room.api.inspection_req.controller;
 
 import com.yun.room.api.inspection_req.dto.create_inspection_req.InspectionReqForm;
+
+import com.yun.room.api.inspection_req.dto.create_inspection_req_status.InspectionReqStatusForm;
 import com.yun.room.domain.component_service.inspection_req.service.InspectionReqComponentService;
 import com.yun.room.security.jwt.util.IfLogin;
 import com.yun.room.security.jwt.util.LoginUserDto;
@@ -10,10 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -24,11 +23,25 @@ import javax.validation.Valid;
 @RequestMapping("/inspection-req")
 public class InspectionReqController {
     private final InspectionReqComponentService inspectionReqComponentService;
-    @PostMapping()
+    @PostMapping
     public ResponseEntity createInspectionReq(@IfLogin LoginUserDto loginUserDto, @RequestBody @Valid InspectionReqForm inspectionReqForm, BindingResult bindingResult) {
         log.info("time: {}", inspectionReqForm.getInspectionDateTime());
-        inspectionReqComponentService.createInspectionReq(inspectionReqForm.getInspectionDateTime(), inspectionReqForm.getMoveInDate(), true, inspectionReqForm.getRoomId(), loginUserDto.getMemberId(), "Init");
+        inspectionReqComponentService.createInspectionReq(inspectionReqForm.getInspectionDateTime(), inspectionReqForm.getMoveInDate(), true, inspectionReqForm.getRoomId(), loginUserDto.getMemberId(), inspectionReqForm.getInspectionReqStatusType(), inspectionReqForm.getMessage());
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    @PostMapping("/status")
+    public ResponseEntity createInspectionReqStatus(@RequestBody @Valid InspectionReqStatusForm inspectionReqStatusForm, BindingResult bindingResult) {
+
+        inspectionReqComponentService.createInspectionReqStatus(
+                inspectionReqStatusForm.getInspectionReqId()
+                , inspectionReqStatusForm.getInspectionDateTime()
+                , inspectionReqStatusForm.getInspectionReqStatusType()
+                , inspectionReqStatusForm.getMessage()
+                );
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 
 }

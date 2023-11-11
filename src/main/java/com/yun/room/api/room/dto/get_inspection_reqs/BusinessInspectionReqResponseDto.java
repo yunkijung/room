@@ -2,21 +2,27 @@ package com.yun.room.api.room.dto.get_inspection_reqs;
 
 import com.yun.room.api.house.dto.search_houses.RoomDto;
 import com.yun.room.domain.inspection_req.entity.InspectionReq;
+import com.yun.room.domain.inspection_req_status.entity.InspectionReqStatus;
+import com.yun.room.domain.inspection_req_status.type.InspectionReqStatusType;
 import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 
 @Data
 public class BusinessInspectionReqResponseDto {
+    private Long inspectionReqId;
     private LocalDateTime inspectionDateTime;
     private LocalDate moveInDate;
     private Boolean isCurrent;
     private RoomDto room;
     private TenantInfoDto tenant;
-    private String inspectionReqStatusType;
+    private InspectionReqStatusType inspectionReqStatusType;
+    private String message;
 
     public BusinessInspectionReqResponseDto(InspectionReq inspectionReq) {
+        this.inspectionReqId = inspectionReq.getId();
         this.inspectionDateTime = inspectionReq.getInspectionDateTime();
         this.moveInDate = inspectionReq.getMoveInDate();
         this.isCurrent = inspectionReq.getIsCurrent();
@@ -34,7 +40,12 @@ public class BusinessInspectionReqResponseDto {
                 , inspectionReq.getMember().getName()
                 , String.valueOf(age)  // Convert age to String
         );
-        this.inspectionReqStatusType = inspectionReq.getInspectionReqStatus().getType();
+        InspectionReqStatus mostRecentStatus = inspectionReq.getInspectionReqStatuses()
+                .stream()
+                .max(Comparator.comparing(InspectionReqStatus::getCreatedDate))
+                .orElse(null);
+        this.inspectionReqStatusType = mostRecentStatus.getInspectionReqStatusType();
+        this.message = mostRecentStatus.getMessage();
     }
 
     // Calculate age based on birthday
