@@ -1,5 +1,6 @@
 package com.yun.room.domain.component_service.room.service;
 
+import com.yun.room.domain.component_service.room.dto.RoomUpdateInfoDto;
 import com.yun.room.domain.house.entity.House;
 import com.yun.room.domain.house.service.HouseService;
 import com.yun.room.domain.house_offer_h.entity.HouseOfferH;
@@ -37,5 +38,16 @@ public class RoomComponentService {
         room.updateHouse(house);
         room.updateImages(images);
         return roomService.save(room);
+    }
+
+    @Transactional
+    public Room updateRoom(Long roomId, RoomUpdateInfoDto roomUpdateInfoDto) {
+        Room room = roomService.findById(roomId);
+
+        if(roomUpdateInfoDto.getIsOn() != null) {
+            room.updateIsOn(roomUpdateInfoDto.getIsOn());
+        }
+
+        return room;
     }
 }

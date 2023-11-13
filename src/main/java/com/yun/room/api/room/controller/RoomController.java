@@ -12,6 +12,8 @@ import com.yun.room.api.room.dto.get_inspection_reqs.BusinessInspectionReqRespon
 import com.yun.room.api.room.dto.get_options.OfferRDto;
 import com.yun.room.api.room.dto.get_room.HouseDto;
 import com.yun.room.api.room.dto.get_room.RoomResponseDto;
+import com.yun.room.api.room.dto.update_room.UpdateRoomDto;
+import com.yun.room.domain.component_service.room.dto.RoomUpdateInfoDto;
 import com.yun.room.domain.component_service.room.service.RoomComponentService;
 import com.yun.room.domain.house.entity.House;
 import com.yun.room.domain.house_offer_h.entity.HouseOfferH;
@@ -37,6 +39,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.naming.Binding;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -96,6 +99,14 @@ public class RoomController {
         HashMap<String, Object> resultMap = new HashMap<>();
         resultMap.put("room", roomResponseDto);
         return new ResponseEntity(resultMap, HttpStatus.OK);
+    }
+
+    @PutMapping("/{roomId}")
+    public ResponseEntity updateRoom(@PathVariable(name = "roomId") Long roomId, @RequestBody @Valid UpdateRoomDto updateRoomDto, BindingResult bindingResult) {
+
+        Room room = roomComponentService.updateRoom(roomId, new RoomUpdateInfoDto(updateRoomDto.getIsOn()));
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping("/options")

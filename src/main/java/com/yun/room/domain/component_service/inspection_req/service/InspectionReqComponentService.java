@@ -4,7 +4,10 @@ import com.yun.room.domain.inspection_req.entity.InspectionReq;
 import com.yun.room.domain.inspection_req.service.InspectionReqService;
 import com.yun.room.domain.inspection_req_status.entity.InspectionReqStatus;
 import com.yun.room.domain.inspection_req_status.service.InspectionReqStatusService;
-import com.yun.room.domain.inspection_req_status.type.InspectionReqStatusType;
+
+import com.yun.room.domain.inspection_req_status_type.entity.InspectionReqStatusType;
+import com.yun.room.domain.inspection_req_status_type.service.InspectionReqStatusTypeService;
+import com.yun.room.domain.inspection_req_status_type.type.ReqStatusType;
 import com.yun.room.domain.member.entity.Member;
 import com.yun.room.domain.member.service.MemberService;
 import com.yun.room.domain.room.entity.Room;
@@ -24,20 +27,24 @@ public class InspectionReqComponentService {
     private final InspectionReqService inspectionReqService;
     private final RoomService roomService;
     private final MemberService memberService;
+    private final InspectionReqStatusTypeService inspectionReqStatusTypeService;
     @Transactional
     public InspectionReq createInspectionReq(
             LocalDateTime inspectionDateTime
             , LocalDate moveInDate
-            , Boolean isCurrent
+            , Boolean isDeletedByHost
+            , Boolean isDeletedByTenant
             , Long roomId
             , Long memberId
-            , InspectionReqStatusType inspectionReqStatusType
+            , ReqStatusType reqStatusType
             , String message) {
         Room room = roomService.findById(roomId);
         Member member = memberService.findById(memberId);
 
-        InspectionReq inspectionReq = new InspectionReq(inspectionDateTime, moveInDate, isCurrent, room, member);
+        InspectionReq inspectionReq = new InspectionReq(inspectionDateTime, moveInDate, isDeletedByHost, isDeletedByTenant, room, member);
         List<InspectionReqStatus> inspectionReqStatuses = new ArrayList<>();
+
+        InspectionReqStatusType inspectionReqStatusType = inspectionReqStatusTypeService.findByReqStatusType(reqStatusType);
         inspectionReqStatuses.add(new InspectionReqStatus(inspectionReqStatusType, message, inspectionReq));
 
         inspectionReq.updateInspectionReqStatuses(inspectionReqStatuses);
@@ -49,13 +56,15 @@ public class InspectionReqComponentService {
     public InspectionReq createInspectionReqStatus(
             Long inspectionReqId
             , LocalDateTime inspectionDateTime
-            , InspectionReqStatusType inspectionReqStatusType
+            , ReqStatusType reqStatusType
             , String message) {
         InspectionReq inspectionReq = inspectionReqService.findById(inspectionReqId);
 
         if(inspectionDateTime != null) {
             inspectionReq.updateInspectionDateTime(inspectionDateTime);
         }
+
+        InspectionReqStatusType inspectionReqStatusType = inspectionReqStatusTypeService.findByReqStatusType(reqStatusType);
 
         inspectionReq.getInspectionReqStatuses().add(new InspectionReqStatus(inspectionReqStatusType, message, inspectionReq));
 

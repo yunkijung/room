@@ -1,6 +1,7 @@
 package com.yun.room.api.inspection_req.dto.create_inspection_req;
 
-import com.yun.room.domain.inspection_req_status.type.InspectionReqStatusType;
+
+import com.yun.room.domain.inspection_req_status_type.type.ReqStatusType;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -11,6 +12,6 @@ public class InspectionReqForm {
     private LocalDateTime inspectionDateTime;
     private LocalDate moveInDate;
     private Long roomId;
-    private InspectionReqStatusType inspectionReqStatusType;
+    private ReqStatusType reqStatusType;
     private String message;
 }

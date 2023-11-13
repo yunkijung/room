@@ -22,7 +22,8 @@ public class InspectionReq {
 
     private LocalDateTime inspectionDateTime;
     private LocalDate moveInDate;
-    private Boolean isCurrent;
+    private Boolean isDeletedByHost;
+    private Boolean isDeletedByTenant;
 
     @ManyToOne
     @JoinColumn(name = "room_id")
@@ -35,10 +36,11 @@ public class InspectionReq {
     @OneToMany(mappedBy = "inspectionReq", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<InspectionReqStatus> inspectionReqStatuses;
 
-    public InspectionReq(LocalDateTime inspectionDateTime, LocalDate moveInDate, Boolean isCurrent, Room room, Member member) {
+    public InspectionReq(LocalDateTime inspectionDateTime, LocalDate moveInDate, Boolean isDeletedByHost, Boolean isDeletedByTenant, Room room, Member member) {
         this.inspectionDateTime = inspectionDateTime;
         this.moveInDate = moveInDate;
-        this.isCurrent = isCurrent;
+        this.isDeletedByHost = isDeletedByHost;
+        this.isDeletedByTenant = isDeletedByTenant;
         this.room = room;
         this.member = member;
     }

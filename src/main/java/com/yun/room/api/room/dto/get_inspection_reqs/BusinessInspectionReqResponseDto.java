@@ -3,7 +3,8 @@ package com.yun.room.api.room.dto.get_inspection_reqs;
 import com.yun.room.api.house.dto.search_houses.RoomDto;
 import com.yun.room.domain.inspection_req.entity.InspectionReq;
 import com.yun.room.domain.inspection_req_status.entity.InspectionReqStatus;
-import com.yun.room.domain.inspection_req_status.type.InspectionReqStatusType;
+
+import com.yun.room.domain.inspection_req_status_type.entity.InspectionReqStatusType;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -15,17 +16,17 @@ public class BusinessInspectionReqResponseDto {
     private Long inspectionReqId;
     private LocalDateTime inspectionDateTime;
     private LocalDate moveInDate;
-    private Boolean isCurrent;
+    private Boolean isDeletedByHost;
     private RoomDto room;
     private TenantInfoDto tenant;
-    private InspectionReqStatusType inspectionReqStatusType;
+    private BusinessReqStatusTypeDto businessReqStatusTypeDto;
     private String message;
 
     public BusinessInspectionReqResponseDto(InspectionReq inspectionReq) {
         this.inspectionReqId = inspectionReq.getId();
         this.inspectionDateTime = inspectionReq.getInspectionDateTime();
         this.moveInDate = inspectionReq.getMoveInDate();
-        this.isCurrent = inspectionReq.getIsCurrent();
+        this.isDeletedByHost = inspectionReq.getIsDeletedByHost();
         this.room = new RoomDto(inspectionReq.getRoom());
 
         LocalDate birth = inspectionReq.getMember().getMemberInfo().getBirth();
@@ -44,7 +45,8 @@ public class BusinessInspectionReqResponseDto {
                 .stream()
                 .max(Comparator.comparing(InspectionReqStatus::getCreatedDate))
                 .orElse(null);
-        this.inspectionReqStatusType = mostRecentStatus.getInspectionReqStatusType();
+        InspectionReqStatusType inspectionReqStatusType = mostRecentStatus.getInspectionReqStatusType();
+        this.businessReqStatusTypeDto = new BusinessReqStatusTypeDto(inspectionReqStatusType);
         this.message = mostRecentStatus.getMessage();
     }
 

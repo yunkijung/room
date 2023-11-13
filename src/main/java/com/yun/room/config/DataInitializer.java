@@ -7,6 +7,9 @@ import com.yun.room.domain.house.repository.HouseRepository;
 import com.yun.room.domain.inspection_req.repository.InspectionReqRepository;
 import com.yun.room.domain.inspection_req_status.entity.InspectionReqStatus;
 import com.yun.room.domain.inspection_req_status.repository.InspectionReqStatusRepository;
+import com.yun.room.domain.inspection_req_status_type.entity.InspectionReqStatusType;
+import com.yun.room.domain.inspection_req_status_type.repository.InspectionReqStatusTypeRepository;
+import com.yun.room.domain.inspection_req_status_type.type.ReqStatusType;
 import com.yun.room.domain.nationality.entity.Nationality;
 import com.yun.room.domain.nationality.repository.NationalityRepository;
 import com.yun.room.domain.occupation.entity.Occupation;
@@ -41,6 +44,7 @@ public class DataInitializer {
             , RuleHRepository ruleHRepository
             , OfferHRepository offerHRepository
             , OfferRRepository offerRRepository
+            , InspectionReqStatusTypeRepository inspectionReqStatusTypeRepository
     ) {
         return args -> {
             if (roleRepository.count() == 0) { // role 테이블에 데이터가 없을 경우
@@ -151,6 +155,129 @@ public class DataInitializer {
                 offerRRepository.save(offerR10);
             }
 
+            if (inspectionReqStatusTypeRepository.count() == 0) {
+                InspectionReqStatusType type1 = new InspectionReqStatusType(
+                        ReqStatusType.INIT_BY_TENANT
+                        , true
+                        , true
+                        , true
+                        , false
+                        , false
+                        , true
+                        , false
+                        , true
+                        , false
+                        , false);
+
+                InspectionReqStatusType type2 = new InspectionReqStatusType(
+                        ReqStatusType.REJECTED_BY_HOST
+                        , false
+                        , false
+                        , false
+                        , false
+                        , true
+                        , false
+                        , false
+                        , false
+                        , false
+                        , true);
+
+                InspectionReqStatusType type3 = new InspectionReqStatusType(
+                        ReqStatusType.UPDATED_BY_HOST
+                        , true
+                        , true
+                        , false
+                        , false
+                        , false
+                        , false
+                        , true
+                        , true
+                        , true
+                        , false);
+
+                InspectionReqStatusType type4 = new InspectionReqStatusType(
+                        ReqStatusType.ACCEPTED_BY_HOST
+                        , true
+                        , true
+                        , false
+                        , false
+                        , false
+                        , false
+                        , true
+                        , true
+                        , true
+                        , false);
+
+                InspectionReqStatusType type5 = new InspectionReqStatusType(
+                        ReqStatusType.CANCELED_BY_HOST
+                        , false
+                        , false
+                        , false
+                        , false
+                        , true
+                        , false
+                        , false
+                        , false
+                        , false
+                        , true);
+
+
+                InspectionReqStatusType type6 = new InspectionReqStatusType(
+                        ReqStatusType.CANCELED_BY_TENANT
+                        , false
+                        , false
+                        , false
+                        , false
+                        , true
+                        , false
+                        , false
+                        , false
+                        , false
+                        , true);
+
+                InspectionReqStatusType type7 = new InspectionReqStatusType(
+                        ReqStatusType.REJECTED_BY_TENANT
+                        , false
+                        , false
+                        , false
+                        , false
+                        , true
+                        , false
+                        , false
+                        , false
+                        , false
+                        , true);
+
+                InspectionReqStatusType type8 = new InspectionReqStatusType(
+                        ReqStatusType.UPDATED_BY_TENANT
+                        , true
+                        , true
+                        , true
+                        , false
+                        , false
+                        , true
+                        , false
+                        , true
+                        , false
+                        , false);
+
+                InspectionReqStatusType type9 = new InspectionReqStatusType(
+                        ReqStatusType.CONFIRMED_BY_TENANT
+                        , false
+                        , false
+                        , false
+                        , true
+                        , false
+                        , true
+                        , false
+                        , false
+                        , false
+                        , false);
+
+
+                inspectionReqStatusTypeRepository.save(type1);
+
+            }
 
         };
     }

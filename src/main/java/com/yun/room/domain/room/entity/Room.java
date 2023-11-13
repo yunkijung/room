@@ -1,6 +1,7 @@
 package com.yun.room.domain.room.entity;
 
 import com.yun.room.domain.common.auditor.AuditorEntity;
+import com.yun.room.domain.component_service.room.dto.RoomUpdateInfoDto;
 import com.yun.room.domain.house.entity.House;
 import com.yun.room.domain.house_offer_h.entity.HouseOfferH;
 import com.yun.room.domain.image.entity.Image;
@@ -60,6 +61,12 @@ public class Room extends AuditorEntity {
             image.updateRoom(this);
 //            image.updateHouse(this.house);
         }
+    }
+
+
+
+    public void updateIsOn(Boolean isOn) {
+        this.isOn = isOn;
     }
 
     public void updateRoomOfferRList(List<RoomOfferR> roomOfferRList) {

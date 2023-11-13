@@ -26,7 +26,7 @@ public class InspectionReqController {
     @PostMapping
     public ResponseEntity createInspectionReq(@IfLogin LoginUserDto loginUserDto, @RequestBody @Valid InspectionReqForm inspectionReqForm, BindingResult bindingResult) {
         log.info("time: {}", inspectionReqForm.getInspectionDateTime());
-        inspectionReqComponentService.createInspectionReq(inspectionReqForm.getInspectionDateTime(), inspectionReqForm.getMoveInDate(), true, inspectionReqForm.getRoomId(), loginUserDto.getMemberId(), inspectionReqForm.getInspectionReqStatusType(), inspectionReqForm.getMessage());
+        inspectionReqComponentService.createInspectionReq(inspectionReqForm.getInspectionDateTime(), inspectionReqForm.getMoveInDate(), false, false, inspectionReqForm.getRoomId(), loginUserDto.getMemberId(), inspectionReqForm.getReqStatusType(), inspectionReqForm.getMessage());
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -36,7 +36,7 @@ public class InspectionReqController {
         inspectionReqComponentService.createInspectionReqStatus(
                 inspectionReqStatusForm.getInspectionReqId()
                 , inspectionReqStatusForm.getInspectionDateTime()
-                , inspectionReqStatusForm.getInspectionReqStatusType()
+                , inspectionReqStatusForm.getReqStatusType()
                 , inspectionReqStatusForm.getMessage()
                 );
 
