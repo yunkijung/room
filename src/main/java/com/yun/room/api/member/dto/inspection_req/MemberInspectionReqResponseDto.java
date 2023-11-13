@@ -18,7 +18,7 @@ public class MemberInspectionReqResponseDto {
     private LocalDate moveInDate;
     private Boolean isDeletedByTenant;
     private RoomDto room;
-    private MemberReqStatusTypeDto memberReqStatusTypeDto;
+    private MemberReqStatusTypeDto memberReqStatusType;
     private String message;
 
     public MemberInspectionReqResponseDto(InspectionReq inspectionReq) {
@@ -32,7 +32,7 @@ public class MemberInspectionReqResponseDto {
                 .max(Comparator.comparing(InspectionReqStatus::getCreatedDate))
                 .orElse(null);
         InspectionReqStatusType inspectionReqStatusType = mostRecentStatus.getInspectionReqStatusType();
-        this.memberReqStatusTypeDto = new MemberReqStatusTypeDto(inspectionReqStatusType);
+        this.memberReqStatusType = new MemberReqStatusTypeDto(inspectionReqStatusType);
 
         this.message = mostRecentStatus.getMessage();
     }

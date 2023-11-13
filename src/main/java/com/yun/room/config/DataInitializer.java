@@ -276,6 +276,14 @@ public class DataInitializer {
 
 
                 inspectionReqStatusTypeRepository.save(type1);
+                inspectionReqStatusTypeRepository.save(type2);
+                inspectionReqStatusTypeRepository.save(type3);
+                inspectionReqStatusTypeRepository.save(type4);
+                inspectionReqStatusTypeRepository.save(type5);
+                inspectionReqStatusTypeRepository.save(type6);
+                inspectionReqStatusTypeRepository.save(type7);
+                inspectionReqStatusTypeRepository.save(type8);
+                inspectionReqStatusTypeRepository.save(type9);
 
             }
 

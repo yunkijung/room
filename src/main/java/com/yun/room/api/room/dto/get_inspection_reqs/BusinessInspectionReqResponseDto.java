@@ -19,7 +19,7 @@ public class BusinessInspectionReqResponseDto {
     private Boolean isDeletedByHost;
     private RoomDto room;
     private TenantInfoDto tenant;
-    private BusinessReqStatusTypeDto businessReqStatusTypeDto;
+    private BusinessReqStatusTypeDto businessReqStatusType;
     private String message;
 
     public BusinessInspectionReqResponseDto(InspectionReq inspectionReq) {
@@ -46,7 +46,7 @@ public class BusinessInspectionReqResponseDto {
                 .max(Comparator.comparing(InspectionReqStatus::getCreatedDate))
                 .orElse(null);
         InspectionReqStatusType inspectionReqStatusType = mostRecentStatus.getInspectionReqStatusType();
-        this.businessReqStatusTypeDto = new BusinessReqStatusTypeDto(inspectionReqStatusType);
+        this.businessReqStatusType = new BusinessReqStatusTypeDto(inspectionReqStatusType);
         this.message = mostRecentStatus.getMessage();
     }
 
