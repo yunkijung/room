@@ -71,5 +71,23 @@ public class InspectionReqComponentService {
         return inspectionReq;
     }
 
+    @Transactional
+    public InspectionReq updateInspectionReq(
+            Long inspectionReqId
+            , Boolean isDeletedByHost
+            , Boolean isDeletedByTenant
+            ) {
+        InspectionReq inspectionReq = inspectionReqService.findById(inspectionReqId);
+
+        if(isDeletedByHost != null) {
+            inspectionReq.updateIsDeletedByHost(isDeletedByHost);
+        }
+
+        if(isDeletedByTenant != null) {
+            inspectionReq.updateIsDeletedByTenant(isDeletedByTenant);
+        }
+
+        return inspectionReq;
+    }
 
 }

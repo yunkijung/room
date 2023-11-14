@@ -52,4 +52,12 @@ public class InspectionReq {
     public void updateInspectionDateTime(LocalDateTime inspectionDateTime) {
         this.inspectionDateTime = inspectionDateTime;
     }
+
+    public void updateIsDeletedByHost(Boolean isDeletedByHost) {
+        this.isDeletedByHost = isDeletedByHost;
+    }
+
+    public void updateIsDeletedByTenant(Boolean isDeletedByTenant) {
+        this.isDeletedByTenant = isDeletedByTenant;
+    }
 }

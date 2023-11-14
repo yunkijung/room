@@ -3,6 +3,7 @@ package com.yun.room.api.inspection_req.controller;
 import com.yun.room.api.inspection_req.dto.create_inspection_req.InspectionReqForm;
 
 import com.yun.room.api.inspection_req.dto.create_inspection_req_status.InspectionReqStatusForm;
+import com.yun.room.api.inspection_req.dto.update_inspection_req.InspectionReqUpdateForm;
 import com.yun.room.domain.component_service.inspection_req.service.InspectionReqComponentService;
 import com.yun.room.security.jwt.util.IfLogin;
 import com.yun.room.security.jwt.util.LoginUserDto;
@@ -31,7 +32,7 @@ public class InspectionReqController {
     }
 
     @PostMapping("/status")
-    public ResponseEntity createInspectionReqStatus(@RequestBody @Valid InspectionReqStatusForm inspectionReqStatusForm, BindingResult bindingResult) {
+    public ResponseEntity createInspectionReqStatus(@IfLogin LoginUserDto loginUserDto, @RequestBody @Valid InspectionReqStatusForm inspectionReqStatusForm, BindingResult bindingResult) {
 
         inspectionReqComponentService.createInspectionReqStatus(
                 inspectionReqStatusForm.getInspectionReqId()
@@ -39,6 +40,17 @@ public class InspectionReqController {
                 , inspectionReqStatusForm.getReqStatusType()
                 , inspectionReqStatusForm.getMessage()
                 );
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity updateInspectionReq(@IfLogin LoginUserDto loginUserDto, @RequestBody InspectionReqUpdateForm inspectionReqUpdateForm) {
+        inspectionReqComponentService.updateInspectionReq(
+                inspectionReqUpdateForm.getInspectionReqId()
+                , inspectionReqUpdateForm.getIsDeletedByHost()
+                , inspectionReqUpdateForm.getIsDeletedByTenant()
+        );
 
         return new ResponseEntity(HttpStatus.OK);
     }
