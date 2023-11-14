@@ -75,11 +75,30 @@ public class MemberInfo extends AuditorEntity {
             , Race race
             , Occupation occupation
             , Religion religion) {
-        this.nationality = nationality;
-        this.gender = gender;
-        this.race = race;
-        this.occupation = occupation;
-        this.religion = religion;
+        if(nationality != null) {
+            this.nationality = nationality;
+        }
+
+        if(gender != null) {
+            this.gender = gender;
+        }
+
+        if(race != null) {
+            this.race = race;
+        }
+
+        if(occupation != null) {
+            this.occupation = occupation;
+        }
+
+        if(religion != null) {
+            this.religion = religion;
+        }
+
+    }
+
+    public void updateBirth(LocalDate birth) {
+        this.birth = birth;
     }
 
     public void updateMember(Member member) {

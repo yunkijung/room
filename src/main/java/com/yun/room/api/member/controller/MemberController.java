@@ -9,8 +9,10 @@ import com.yun.room.api.member.dto.like_house.LikeHouseDto;
 import com.yun.room.api.member.dto.login.MemberLoginDto;
 import com.yun.room.api.member.dto.login.MemberLoginResponseDto;
 
+import com.yun.room.api.member.dto.member_info.MemberInfoDto;
 import com.yun.room.api.member.dto.signup.MemberSignupDto;
 import com.yun.room.api.member.dto.signup.MemberSignupResponseDto;
+import com.yun.room.api.member.dto.update_member.UpdateMemberForm;
 import com.yun.room.api.room.dto.get_options.OfferRDto;
 import com.yun.room.domain.component_service.member.dto.MemberInfoOptionsDto;
 import com.yun.room.domain.component_service.member.service.MemberComponentService;
@@ -69,12 +71,6 @@ public class MemberController {
     private final InspectionReqService inspectionReqService;
 
 
-//    public MemberController(JwtTokenizer jwtTokenizer, MemberService memberService, RefreshTokenService refreshTokenService, PasswordEncoder passwordEncoder) {
-//        this.jwtTokenizer = jwtTokenizer;
-//        this.memberService = memberService;
-//        this.refreshTokenService = refreshTokenService;
-//        this.passwordEncoder = passwordEncoder;
-//    }
 
     @PostMapping("/signup")
     public ResponseEntity signup(@RequestBody @Valid MemberSignupDto memberSignupDto, BindingResult bindingResult) {
@@ -219,9 +215,11 @@ public class MemberController {
 
     @GetMapping("/info")
     public ResponseEntity userinfo(@IfLogin LoginUserDto loginUserDto) {
-        Member member = memberService.findByEmail(loginUserDto.getEmail());
+        Member member = memberService.findById(loginUserDto.getMemberId());
+        MemberInfoDto memberInfoDto = new MemberInfoDto(member);
+
         HashMap<String, Object> resultMap = new HashMap<>();
-        resultMap.put("member", loginUserDto);
+        resultMap.put("member", memberInfoDto);
 
         return new ResponseEntity(resultMap, HttpStatus.OK);
     }
@@ -320,5 +318,19 @@ public class MemberController {
         resultMap.put("inspectionReqList", inspectionReqResponseDtos);
 
         return new ResponseEntity(resultMap, HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity updateMember(@IfLogin LoginUserDto loginUserDto, @RequestBody UpdateMemberForm updateMemberForm) {
+        MemberInfoOptionsDto memberInfoOptionsDto = new MemberInfoOptionsDto(
+                updateMemberForm.getGenderId()
+                , updateMemberForm.getOccupationId()
+                , updateMemberForm.getReligionId()
+                , updateMemberForm.getRaceId()
+                , updateMemberForm.getNationalityId()
+        );
+
+        memberComponentService.updateMember(loginUserDto.getMemberId(), updateMemberForm.getBirth(), memberInfoOptionsDto);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

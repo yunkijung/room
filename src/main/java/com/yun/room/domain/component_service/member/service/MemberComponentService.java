@@ -21,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -101,6 +102,37 @@ public class MemberComponentService {
             houses.add(likeHouse.getHouse());
         }
         return houses;
+
+    }
+
+    @Transactional
+    public Member updateMember(Long memberId, LocalDate birth, MemberInfoOptionsDto memberInfoOptionsDto) {
+        Member member = memberService.findById(memberId);
+        MemberInfo memberInfo = member.getMemberInfo();
+
+        if(birth != null) {
+            memberInfo.updateBirth(birth);
+        }
+
+        memberInfo.updateOptions(
+                memberInfoOptionsDto.getNationalityId() != null
+                        ? nationalityService.findById(memberInfoOptionsDto.getNationalityId())
+                        : null
+                ,  memberInfoOptionsDto.getGenderId() != null
+                        ? genderService.findById(memberInfoOptionsDto.getGenderId())
+                        : null
+                ,  memberInfoOptionsDto.getRaceId() != null
+                        ? raceService.findById(memberInfoOptionsDto.getRaceId())
+                        : null
+                ,  memberInfoOptionsDto.getOccupationId() != null
+                        ? occupationService.findById(memberInfoOptionsDto.getOccupationId())
+                        : null
+                ,  memberInfoOptionsDto.getReligionId() != null
+                        ? religionService.findById(memberInfoOptionsDto.getReligionId())
+                        : null
+        );
+
+        return member;
 
     }
 }
