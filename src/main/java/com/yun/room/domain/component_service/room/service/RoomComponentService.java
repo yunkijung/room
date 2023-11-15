@@ -86,9 +86,11 @@ public class RoomComponentService {
 
         // add images
         if(addedImages != null) {
+            List<Image> images = room.getImages();
             for (Image image : addedImages) {
-                room.getImages().add(image);
+                images.add(image);
             }
+            room.updateImages(images);
         }
 
         room.updateRoomInfo(

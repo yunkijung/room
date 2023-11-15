@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -53,9 +54,13 @@ public class Room extends AuditorEntity {
         house.getRooms().add(this);
     }
 
+
     public void updateImages(List<Image> images) {
         this.images = images;
         for (Image image : images) {
+            if(image.getRoom() != null) {
+                continue;
+            }
             image.updateRoom(this);
 //            image.updateHouse(this.house);
         }
