@@ -138,7 +138,7 @@ public class HouseController {
     }
 
 
-    @PutMapping(name = "/{houseId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PutMapping("/{houseId}")
     public ResponseEntity updateHouse(
             @IfLogin LoginUserDto loginUserDto
             , @PathVariable(name = "houseId") Long houseId
