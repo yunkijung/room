@@ -45,4 +45,32 @@ public class S3UploadService {
 
         return new Image(originalFilename, fileUrl);
     }
+
+    public void deleteFile(String fileKey) {
+        amazonS3.deleteObject(bucket, fileKey);
+    }
+
+    public void deleteFiles(List<String> fileKeys) {
+        for (String fileKey : fileKeys) {
+            deleteFile(fileKey);
+        }
+    }
+
+//    public void deleteImage(Image image) {
+//        deleteFile(getFileKeyFromUrl(image.getFileUrl()));
+//    }
+
+    public void deleteImages(List<String> fileUrls) {
+        List<String> fileKeys = new ArrayList<>();
+        for (String fileUrl : fileUrls) {
+            fileKeys.add(getFileKeyFromUrl(fileUrl));
+        }
+        deleteFiles(fileKeys);
+    }
+
+    private String getFileKeyFromUrl(String fileUrl) {
+        // Assuming that the file URL follows the S3 URL pattern
+        // e.g., https://your-s3-bucket.s3.amazonaws.com/uniqueFilename123
+        return fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
+    }
 }

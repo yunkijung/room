@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class RoomUpdateInfoDto {
+public class RoomUpdateOnOffDto {
     private Boolean isOn;
 }

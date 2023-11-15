@@ -107,8 +107,7 @@ public class HouseController {
 
             // Use latitude and longitude as needed.
 
-
-
+            log.info("images sent {}", files);
 
         List<Image> images = new ArrayList<>();
         try{

@@ -3,30 +3,22 @@ package com.yun.room.api.room.controller;
 import com.yun.room.api.external_service.S3UploadService;
 
 
-
-import com.yun.room.api.house.dto.get_options.OfferHDto;
-import com.yun.room.api.house.dto.get_options.RuleHDto;
-import com.yun.room.api.member.dto.inspection_req.MemberInspectionReqResponseDto;
 import com.yun.room.api.room.dto.create_room.CreateRoomDto;
 import com.yun.room.api.room.dto.get_inspection_reqs.BusinessInspectionReqResponseDto;
 import com.yun.room.api.room.dto.get_options.OfferRDto;
-import com.yun.room.api.room.dto.get_room.HouseDto;
 import com.yun.room.api.room.dto.get_room.RoomResponseDto;
 import com.yun.room.api.room.dto.update_room.UpdateRoomDto;
-import com.yun.room.domain.component_service.room.dto.RoomUpdateInfoDto;
+import com.yun.room.api.room.dto.update_room_on_off.UpdateRoomOnOffDto;
+import com.yun.room.domain.component_service.room.dto.RoomUpdateDto;
+import com.yun.room.domain.component_service.room.dto.RoomUpdateOnOffDto;
 import com.yun.room.domain.component_service.room.service.RoomComponentService;
-import com.yun.room.domain.house.entity.House;
-import com.yun.room.domain.house_offer_h.entity.HouseOfferH;
-import com.yun.room.domain.house_rule_h.entity.HouseRuleH;
 import com.yun.room.domain.image.entity.Image;
 import com.yun.room.domain.inspection_req.entity.InspectionReq;
-import com.yun.room.domain.inspection_req.repository.InspectionReqRepository;
 import com.yun.room.domain.inspection_req.service.InspectionReqService;
 import com.yun.room.domain.offer_r.entity.OfferR;
 import com.yun.room.domain.offer_r.service.OfferRService;
 import com.yun.room.domain.room.entity.Room;
 import com.yun.room.domain.room.service.RoomService;
-import com.yun.room.domain.room_offer_r.entity.RoomOfferR;
 import com.yun.room.security.jwt.util.IfLogin;
 import com.yun.room.security.jwt.util.LoginUserDto;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +31,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.naming.Binding;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,6 +81,57 @@ public class RoomController {
         return new ResponseEntity(resultMap, HttpStatus.OK);
     }
 
+    @PutMapping("/{roomId}")
+    public ResponseEntity updateRoom(
+            @IfLogin LoginUserDto loginUserDto
+            , @PathVariable(name = "roomId") Long roomId
+            , @RequestPart @Valid UpdateRoomDto updateRoomDto
+            , @RequestPart @Valid Optional<List<MultipartFile>> addedFiles
+            , BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            // If there are validation errors, return details in the response body
+            return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+        }
+//        if (bindingResult.hasErrors()) {
+//            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+//        }
+
+        List<Image> addedImages = new ArrayList<>();
+        try{
+            if (!addedFiles.isEmpty()) {
+                addedImages = s3UploadService.saveFiles(addedFiles.get());
+            }
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+        try{
+            if (!updateRoomDto.getDeletedFiles().isEmpty()) {
+                s3UploadService.deleteImages(updateRoomDto.getDeletedFiles());
+            }
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+        RoomUpdateDto roomUpdateDto = new RoomUpdateDto(
+                roomId
+                , updateRoomDto.getTitle()
+                , updateRoomDto.getDescription()
+                , updateRoomDto.getFloor()
+                , updateRoomDto.getPrice()
+                , updateRoomDto.getMinStay()
+                , updateRoomDto.getAvailableDate()
+                , updateRoomDto.getAddedOffers()
+                , updateRoomDto.getDeletedOffers()
+                , updateRoomDto.getDeletedFiles()
+        );
+
+        roomComponentService.updateRoom(addedImages, roomUpdateDto);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @GetMapping("/{roomId}")
     public ResponseEntity getRoom(@PathVariable(name = "roomId") Long roomId) {
         Room room = roomService.findById(roomId);
@@ -101,10 +143,10 @@ public class RoomController {
         return new ResponseEntity(resultMap, HttpStatus.OK);
     }
 
-    @PutMapping("/{roomId}")
-    public ResponseEntity updateRoom(@PathVariable(name = "roomId") Long roomId, @RequestBody @Valid UpdateRoomDto updateRoomDto, BindingResult bindingResult) {
+    @PutMapping("/{roomId}/on-off")
+    public ResponseEntity updateRoomOnOff(@PathVariable(name = "roomId") Long roomId, @RequestBody @Valid UpdateRoomOnOffDto updateRoomOnOffDto, BindingResult bindingResult) {
 
-        Room room = roomComponentService.updateRoom(roomId, new RoomUpdateInfoDto(updateRoomDto.getIsOn()));
+        Room room = roomComponentService.updateRoomOnOff(roomId, new RoomUpdateOnOffDto(updateRoomOnOffDto.getIsOn()));
 
         return new ResponseEntity(HttpStatus.OK);
     }

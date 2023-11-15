@@ -1,9 +1,7 @@
 package com.yun.room.domain.room.entity;
 
 import com.yun.room.domain.common.auditor.AuditorEntity;
-import com.yun.room.domain.component_service.room.dto.RoomUpdateInfoDto;
 import com.yun.room.domain.house.entity.House;
-import com.yun.room.domain.house_offer_h.entity.HouseOfferH;
 import com.yun.room.domain.image.entity.Image;
 import com.yun.room.domain.room_offer_r.entity.RoomOfferR;
 import lombok.Getter;
@@ -67,6 +65,28 @@ public class Room extends AuditorEntity {
 
     public void updateIsOn(Boolean isOn) {
         this.isOn = isOn;
+    }
+
+    public void updateRoomInfo(String title, String description, Integer floor, Integer price, Integer minStay, LocalDate availableDate) {
+        if(title != null){
+            this.title = title;
+        }
+        if(description != null){
+            this.description = description;
+        }
+        if(floor != null){
+            this.floor = floor;
+        }
+        if(price != null){
+            this.price = price;
+        }
+        if(minStay != null){
+            this.minStay = minStay;
+        }
+        if(availableDate != null){
+            this.availableDate = availableDate;
+        }
+
     }
 
     public void updateRoomOfferRList(List<RoomOfferR> roomOfferRList) {

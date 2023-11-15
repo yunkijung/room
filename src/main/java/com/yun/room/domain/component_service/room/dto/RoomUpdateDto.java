@@ -1,12 +1,15 @@
-package com.yun.room.api.room.dto.update_room;
+package com.yun.room.domain.component_service.room.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Data
-public class UpdateRoomDto {
+@AllArgsConstructor
+public class RoomUpdateDto {
+    private Long roomId;
     private String title;
     private String description;
     private Integer floor;
