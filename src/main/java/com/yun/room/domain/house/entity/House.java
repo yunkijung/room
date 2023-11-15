@@ -93,7 +93,54 @@ public class House extends AuditorEntity {
     public void updateImages(List<Image> images) {
         this.images = images;
         for (Image image : images) {
+            if(image.getHouse() != null) {
+                continue;
+            }
             image.updateHouse(this);
+        }
+    }
+
+    public void updateHouseInfo(
+            String title
+            , String description
+            , String type
+            , Address address
+            , Point point
+            , Integer roomCount
+            , Integer washroomCount
+            , Integer toiletCount
+            , Integer kitchenCount
+            , Integer livingRoomCount
+    ) {
+        if(title != null) {
+            this.title = title;
+        }
+        if(description != null) {
+            this.description = description;
+        }
+        if(type != null) {
+            this.type = type;
+        }
+        if(address != null) {
+            this.address = address;
+        }
+        if(point != null) {
+            this.point = point;
+        }
+        if(roomCount != null) {
+            this.roomCount = roomCount;
+        }
+        if(washroomCount != null) {
+            this.washroomCount = washroomCount;
+        }
+        if(toiletCount != null) {
+            this.toiletCount = toiletCount;
+        }
+        if(kitchenCount != null) {
+            this.kitchenCount = kitchenCount;
+        }
+        if(livingRoomCount != null) {
+            this.livingRoomCount = livingRoomCount;
         }
     }
 

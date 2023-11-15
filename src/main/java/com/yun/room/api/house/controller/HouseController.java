@@ -10,8 +10,10 @@ import com.yun.room.api.house.dto.get_options.OfferHDto;
 import com.yun.room.api.house.dto.get_options.RuleHDto;
 import com.yun.room.api.house.dto.search_houses.HouseResponseDto;
 import com.yun.room.api.house.dto.search_houses.SearchHousesDto;
+import com.yun.room.api.house.dto.update_house.UpdateHouseForm;
 import com.yun.room.api.room.dto.get_options.OfferRDto;
 import com.yun.room.domain.common.embedded.Address;
+import com.yun.room.domain.component_service.house.dto.HouseUpdateDto;
 import com.yun.room.domain.component_service.house.service.HouseComponentService;
 import com.yun.room.domain.house.entity.House;
 import com.yun.room.domain.house.service.HouseService;
@@ -135,6 +137,86 @@ public class HouseController {
         }
     }
 
+
+    @PutMapping(name = "/{houseId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity updateHouse(
+            @IfLogin LoginUserDto loginUserDto
+            , @PathVariable(name = "houseId") Long houseId
+            , @RequestPart @Valid UpdateHouseForm updateHouseForm
+            , @RequestPart @Valid Optional<List<MultipartFile>> addedFiles
+            , BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+
+        GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
+
+        try {
+            LatLng location = geocodingApiService.getLatLngFromAddress(
+                    updateHouseForm.getStreet() + ", "
+                            + updateHouseForm.getCity() + ", "
+                            + updateHouseForm.getCountry()
+            );
+            log.info("location = {}, {}", location.lat, location.lng);
+            double latitude = location.lat;
+            double longitude = location.lng;
+            Point point = geometryFactory.createPoint(new Coordinate(longitude, latitude));
+
+            Address address = new Address(
+                    updateHouseForm.getStreet()
+                    , updateHouseForm.getCity()
+                    , updateHouseForm.getCountry()
+                    , updateHouseForm.getPostalCode()
+            );
+
+            List<Image> addedImages = new ArrayList<>();
+            try{
+                if (!addedFiles.isEmpty()) {
+                    addedImages = s3UploadService.saveFiles(addedFiles.get());
+                }
+            } catch (Exception e) {
+                return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
+
+            try{
+                if (!updateHouseForm.getDeletedFiles().isEmpty()) {
+                    s3UploadService.deleteImages(updateHouseForm.getDeletedFiles());
+                }
+            } catch (Exception e) {
+                return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
+
+            HouseUpdateDto houseUpdateDto = new HouseUpdateDto(
+                    houseId
+                    , updateHouseForm.getTitle()
+                    , updateHouseForm.getDescription()
+                    , updateHouseForm.getType()
+                    , address
+                    , point
+                    , updateHouseForm.getRoomCount()
+                    , updateHouseForm.getWashroomCount()
+                    , updateHouseForm.getToiletCount()
+                    , updateHouseForm.getKitchenCount()
+                    , updateHouseForm.getLivingRoomCount()
+                    , updateHouseForm.getAddedRules()
+                    , updateHouseForm.getDeletedRules()
+                    , updateHouseForm.getAddedOffers()
+                    , updateHouseForm.getDeletedOffers()
+                    , updateHouseForm.getDeletedFiles()
+            );
+
+            houseComponentService.updateHouse(addedImages, houseUpdateDto);
+
+
+            return new ResponseEntity(HttpStatus.OK);
+
+        } catch (Exception e) {
+            // Handle the exception
+            log.error("GeocodingAPI Error : ", e);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @GetMapping("/{houseId}")
     public ResponseEntity getHouse(@PathVariable Long houseId) {
